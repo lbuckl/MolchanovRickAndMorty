@@ -14,16 +14,15 @@ class CharactersFragment(): BaseFragment<FragmentCharactersBinding>() {
         const val FRAGMENT_TAG = "CharactersFragment_IdentificationTag"
     }
 
-    override val binding: FragmentCharactersBinding
-    get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCharactersBinding.inflate(inflater, container, false)
-
         return binding.root
+    }
+
+    override fun getViewBinding(): FragmentCharactersBinding {
+        return FragmentCharactersBinding.inflate(layoutInflater)
     }
 }

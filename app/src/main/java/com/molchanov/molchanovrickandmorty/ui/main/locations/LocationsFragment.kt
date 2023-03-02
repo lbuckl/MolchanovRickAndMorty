@@ -14,15 +14,15 @@ class LocationsFragment(): BaseFragment<FragmentLocationsBinding>() {
         const val FRAGMENT_TAG = "LocationsFragment_IdentificationTag"
     }
 
-    override val binding: FragmentLocationsBinding
-    get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentLocationsBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun getViewBinding(): FragmentLocationsBinding {
+        return FragmentLocationsBinding.inflate(layoutInflater)
     }
 }
