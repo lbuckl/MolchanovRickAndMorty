@@ -2,9 +2,17 @@ package com.molchanov.molchanovrickandmorty.utils
 
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 
+fun View.vision(flag: Int){
+    val vision = this.visibility
+
+    if (flag != vision){
+        this.visibility = flag
+    }
+}
 /**
  * Функция загрузки изображния по URL с помощью Glide
  */

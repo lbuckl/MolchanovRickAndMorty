@@ -5,24 +5,72 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar_mainActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/custom_bar_color"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ab_mainActivity_ic_home"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_home_color"
+                android:background="?attr/custom_bar_color"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ab_mainActivity_tv_header"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                style="@style/HeaderStyle"
+                android:fontFamily="@font/font_header"
+                android:gravity="center"
+                android:text="@string/rick_and_morty"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/custom_bar_color" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ab_mainActivity_ic_back"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="end"
+                android:src="@drawable/ic_button_back_color"
+                android:background="?attr/custom_bar_color"/>
+        </FrameLayout>
+
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/bnv_main"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/appBar_mainActivity" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemRippleColor="@color/yellow_light"
         android:clickable="true"
         app:itemHorizontalTranslationEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_bottom_navigation_view">
-
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

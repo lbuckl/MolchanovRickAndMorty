@@ -1,7 +1,9 @@
 package com.molchanov.molchanovrickandmorty.ui.main
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.data.networkstatus.INetworkStatus
@@ -11,6 +13,7 @@ import com.molchanov.molchanovrickandmorty.ui.main.characters.CharactersFragment
 import com.molchanov.molchanovrickandmorty.ui.main.episodes.EpisodesFragment
 import com.molchanov.molchanovrickandmorty.ui.main.locations.LocationsFragment
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
+import com.molchanov.molchanovrickandmorty.utils.vision
 import javax.inject.Inject
 
 /**
@@ -37,16 +40,11 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun addMainFragment() {
-        router.addFragment(
-            supportFragmentManager,
-            binding.container.id,
-            CharactersFragment.instance,
-            CharactersFragment.FRAGMENT_TAG)
-
-        this.supportActionBar?.title = resources.getString(R.string.characters)
+        naviGoToCharacterFragment()
     }
 
     private fun initMenuListener() {
+
         binding.bnvMain.menu.let { menu ->
             Log.v("@@@" , "menu")
 
@@ -56,36 +54,15 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
                 when (item) {
                     menu.findItem(R.id.bv_item_characters) -> {
 
-                        router.replaceFragment(
-                            supportFragmentManager,
-                            binding.container.id,
-                            CharactersFragment.instance,
-                            CharactersFragment.FRAGMENT_TAG
-                        )
-
-                        this.supportActionBar?.title = resources.getString(R.string.characters)
+                        naviGoToCharacterFragment()
                     }
                     menu.findItem(R.id.bv_item_locations) -> {
 
-                        router.replaceFragment(
-                            supportFragmentManager,
-                            binding.container.id,
-                            LocationsFragment.instance,
-                            LocationsFragment.FRAGMENT_TAG
-                        )
-
-                        this.supportActionBar?.title = resources.getString(R.string.locations)
+                        naviGoToLocationFragment()
                     }
                     menu.findItem(R.id.bv_item_episodes) -> {
 
-                        router.replaceFragment(
-                            supportFragmentManager,
-                            binding.container.id,
-                            EpisodesFragment.instance,
-                            EpisodesFragment.FRAGMENT_TAG
-                        )
-
-                        this.supportActionBar?.title = resources.getString(R.string.episodes)
+                        naviGoToEpisodesFragment()
                     }
                 }
 
@@ -93,4 +70,55 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
             }
         }
     }
+
+    private fun naviGoToCharacterFragment(){
+        with(binding){
+            router.addFragment(
+                supportFragmentManager,
+                container.id,
+                CharactersFragment.instance,
+                CharactersFragment.FRAGMENT_TAG)
+
+            abMainActivityTvHeader.text = resources.getString(R.string.characters)
+
+            abMainActivityIcHome.vision(View.GONE)
+
+            abMainActivityIcBack.vision(View.GONE)
+        }
+    }
+
+    private fun naviGoToLocationFragment(){
+        with(binding){
+            router.replaceFragment(
+                supportFragmentManager,
+                container.id,
+                LocationsFragment.instance,
+                LocationsFragment.FRAGMENT_TAG
+            )
+
+            abMainActivityTvHeader.text = resources.getString(R.string.locations)
+
+            abMainActivityIcHome.vision(View.VISIBLE)
+
+            abMainActivityIcBack.vision(View.GONE)
+        }
+    }
+
+    private fun naviGoToEpisodesFragment(){
+        with(binding){
+            router.replaceFragment(
+                supportFragmentManager,
+                container.id,
+                EpisodesFragment.instance,
+                EpisodesFragment.FRAGMENT_TAG
+            )
+
+            abMainActivityTvHeader.text = resources.getString(R.string.episodes)
+
+            abMainActivityIcHome.vision(View.VISIBLE)
+
+            abMainActivityIcBack.vision(View.GONE)
+        }
+    }
+
 }
