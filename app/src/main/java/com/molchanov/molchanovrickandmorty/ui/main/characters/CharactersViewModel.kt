@@ -11,12 +11,12 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     @Inject lateinit var repoRemote: IRepositoryRemote
 
     fun getMyLiveData(): LiveData<CharactersAppState> {
-        if (liveData.value == null) getData()
+        if (liveData.value == null) getData(1)
         return liveData
     }
 
-    private fun getData(){
-        repoRemote.getCharacters()
+    fun getData(page: Int){
+        repoRemote.getCharacters(page)
             .subscribeOn(Schedulers.io())
             .subscribe(
                 {

@@ -11,6 +11,17 @@ class DTOtoDomainMapper {
             charactersDTOtoDomain(it)
         }
 
+    fun charactersDTOtoDomainPage(characters: CharacterDTO): CharacterPage =
+        CharacterPage(
+            pageNum = characters.info.pages,
+            prev = characters.info.prev,
+            next = characters.info.next,
+            characters.results.map {
+                charactersDTOtoDomain(it)
+            }
+        )
+
+
     fun charactersDTOtoDomain(character: CharacterDetails): Character =
         Character(
             id = character.id,

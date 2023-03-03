@@ -1,17 +1,17 @@
 package com.molchanov.molchanovrickandmorty.ui.main.characters
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.molchanov.domain.character.Character
+import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
-import com.molchanov.domain.character.*
-import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.ui.base.ViewModelFactory
+import com.molchanov.molchanovrickandmorty.ui.main.pagination.PaginationRVAdapter
 import javax.inject.Inject
 
 class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
@@ -30,7 +30,15 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         }
     }
 
+    private val onPagRVItemClickListener = object : PaginationRVAdapter.OnListItemClickListener {
+        override fun onItemClick(data: Pair<Int, Boolean>) {
+            viewModel.getData(data.first)
+        }
+    }
+
     private val rvAdapter = CharactersRVAdapter(onRVItemClickListener)
+
+    private val pagRvAdapter = PaginationRVAdapter(onPagRVItemClickListener)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,9 +47,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
     ): View {
         App.app.appComponent.inject(this)
 
-        binding.rvCharacters.adapter = rvAdapter
-
-        binding.rvCharacters.layoutManager = GridLayoutManager(this.context,2)
+        initRvAdapters()
 
         initViewModel()
 
@@ -50,6 +56,14 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
     override fun getViewBinding(): FragmentCharactersBinding {
         return FragmentCharactersBinding.inflate(layoutInflater)
+    }
+
+    private fun initRvAdapters(){
+        binding.rvCharacters.adapter = rvAdapter
+
+        binding.include.rvPagination.adapter = pagRvAdapter
+
+        binding.rvCharacters.layoutManager = GridLayoutManager(this.context,2)
     }
 
     private fun initViewModel() {
@@ -67,7 +81,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         when(state){
             is CharactersAppState.Success -> {
                rvAdapter.replaceData(state.data)
-                Log.v("@@@", "Success")
+               pagRvAdapter.replaceData(state.data.pageNum)
             }
             is CharactersAppState.Error -> {
 

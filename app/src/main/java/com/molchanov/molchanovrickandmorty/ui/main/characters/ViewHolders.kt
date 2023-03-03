@@ -2,7 +2,7 @@ package com.molchanov.molchanovrickandmorty.ui.main.characters
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.molchanov.domain.character.*
+import com.molchanov.domain.character.Character
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersRvItemBinding
 import com.molchanov.molchanovrickandmorty.utils.loadImageFromUrl
 

@@ -4,7 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.molchanov.domain.character.*
+import com.molchanov.domain.character.Character
+import com.molchanov.domain.character.CharacterPage
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersRvItemBinding
 
 class CharactersRVAdapter(
@@ -30,8 +31,8 @@ class CharactersRVAdapter(
         }
     }
 
-    fun replaceData(newOfficeList: List<Character>) {
-        characterList = newOfficeList
+    fun replaceData(characterPage: CharacterPage) {
+        characterList = characterPage.characterList
         Log.v("@@@", characterList.size.toString())
         notifyDataSetChanged()
     }
