@@ -1,8 +1,6 @@
 package com.molchanov.molchanovrickandmorty.ui.main
 
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
@@ -14,9 +12,6 @@ import com.molchanov.molchanovrickandmorty.ui.main.episodes.EpisodesFragment
 import com.molchanov.molchanovrickandmorty.ui.main.locations.LocationsFragment
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
-import com.molchanov.repository.remote.RepositoryRemoteImpl
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 
 /**
@@ -44,32 +39,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     override fun addMainFragment() {
         naviGoToCharacterFragment()
-
-        tets()
-    }
-
-    private fun tets(){
-        RepositoryRemoteImpl().getCharacters()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-            {
-                it[1]
-            },
-            {
-                Log.v("@@@", it.message.toString())
-            }
-        )
     }
 
     private fun initMenuListener() {
 
         binding.bnvMain.menu.let { menu ->
-            Log.v("@@@" , "menu")
 
             binding.bnvMain.setOnItemSelectedListener { item ->
 
-                Log.v("@@@" , "setOnItemSelectedListener")
                 when (item) {
                     menu.findItem(R.id.bv_item_characters) -> {
 
@@ -91,6 +68,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     }
 
     private fun naviGoToCharacterFragment(){
+
         with(binding){
             router.addFragment(
                 supportFragmentManager,
@@ -107,6 +85,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     }
 
     private fun naviGoToLocationFragment(){
+
         with(binding){
             router.replaceFragment(
                 supportFragmentManager,
@@ -124,6 +103,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     }
 
     private fun naviGoToEpisodesFragment(){
+
         with(binding){
             router.replaceFragment(
                 supportFragmentManager,
