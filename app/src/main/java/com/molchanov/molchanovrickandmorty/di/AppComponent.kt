@@ -14,7 +14,8 @@ import javax.inject.Singleton
         NetworkStatusModule::class,
         RouterModule::class,
         VMFactoryModule::class,
-        RepositoryModule::class
+        RepositoryModule::class,
+        SchedulersModule::class
     ]
 )
 
