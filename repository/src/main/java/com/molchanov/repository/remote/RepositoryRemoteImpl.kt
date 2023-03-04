@@ -7,19 +7,19 @@ import com.molchanov.repository.utils.DTOtoDomainMapper
 import io.reactivex.rxjava3.core.Single
 
 class RepositoryRemoteImpl(
-    //private val dtoToDomainMapper: DTOtoDomainMapper
-    //private val rmRequestImpl: RickAndMortyRequestIml
-): IRepositoryRemote {
+    private val rmRequestImpl: RickAndMortyRequestIml,
+    private val dtoToDomainMapper: DTOtoDomainMapper
+    ): IRepositoryRemote {
 
     override fun getCharacters(page: Int): Single<CharacterPage> {
-        return RickAndMortyRequestIml().getCharactersRetrofit().getCharacters(page.toString()).map { dto ->
-            DTOtoDomainMapper().charactersDTOtoDomainPage(dto)
+        return rmRequestImpl.getCharactersRetrofit().getCharacters(page.toString()).map { dto ->
+            dtoToDomainMapper.charactersDTOtoDomainPage(dto)
         }
     }
 
     override fun getCharacterInfo(url: String): Single<Character> {
-        return RickAndMortyRequestIml().getCharactersRetrofit().getCharacterDetails(url).map { dto ->
-            DTOtoDomainMapper().charactersDTOtoDomain(dto)
+        return rmRequestImpl.getCharactersRetrofit().getCharacterDetails(url).map { dto ->
+            dtoToDomainMapper.charactersDTOtoDomain(dto)
         }
     }
 

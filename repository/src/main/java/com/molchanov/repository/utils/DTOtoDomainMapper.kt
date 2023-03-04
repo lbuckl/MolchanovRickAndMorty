@@ -1,15 +1,11 @@
 package com.molchanov.repository.utils
 
-import com.molchanov.domain.character.*
+import com.molchanov.domain.character.Character
+import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.remote.dto.characters.CharacterDTO
 import com.molchanov.repository.remote.dto.characters.CharacterDetails
 
 class DTOtoDomainMapper {
-
-    fun charactersDTOtoDomainList(characters: CharacterDTO): List<Character> =
-        characters.results.map {
-            charactersDTOtoDomain(it)
-        }
 
     fun charactersDTOtoDomainPage(characters: CharacterDTO): CharacterPage =
         CharacterPage(
@@ -20,7 +16,6 @@ class DTOtoDomainMapper {
                 charactersDTOtoDomain(it)
             }
         )
-
 
     fun charactersDTOtoDomain(character: CharacterDetails): Character =
         Character(

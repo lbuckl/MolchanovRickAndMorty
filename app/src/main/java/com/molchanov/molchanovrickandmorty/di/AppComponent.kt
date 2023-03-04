@@ -3,6 +3,7 @@ package com.molchanov.molchanovrickandmorty.di
 import com.molchanov.molchanovrickandmorty.ui.main.MainActivity
 import com.molchanov.molchanovrickandmorty.ui.main.characters.CharactersFragment
 import com.molchanov.molchanovrickandmorty.ui.main.characters.CharactersViewModel
+import com.molchanov.repository.di.RepositoryModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -13,7 +14,7 @@ import javax.inject.Singleton
         NetworkStatusModule::class,
         RouterModule::class,
         VMFactoryModule::class,
-        RepositoryRemoteModule::class
+        RepositoryModule::class
     ]
 )
 
