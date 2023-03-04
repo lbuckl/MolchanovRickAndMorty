@@ -48,7 +48,7 @@ class PaginationRVAdapter(
 
         holder.itemView.setOnClickListener {
 
-            if (oldActivePage != position + 1)
+            if (oldActivePage != (position + 1))
 
             oldActivePage = position + 1
 
@@ -91,8 +91,6 @@ class PaginationRVAdapter(
         for (i in 0 until pageNum){
             bufList.add(Pair(i + 1,false))
         }
-
-        Log.v("@@@", activePage.toString())
 
         if (activePage > 0) bufList[activePage - 1] = Pair(activePage, true)
         else bufList[0] = Pair(activePage, true)

@@ -1,0 +1,19 @@
+package com.molchanov.repository.local.characters
+
+
+import android.content.Context
+import androidx.room.Room
+
+class CharactersDbExist(private val context: Context) {
+
+    private val translateDB: CharactersDB? = null
+
+    fun getTranslateDB(): CharactersDB {
+        return translateDB
+            ?: Room.databaseBuilder(
+                context,
+                CharactersDB::class.java,
+                CharactersDB.CHAR_DB_NAME
+            ).build()
+    }
+}

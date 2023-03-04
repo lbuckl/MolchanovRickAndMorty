@@ -1,6 +1,8 @@
 package com.molchanov.molchanovrickandmorty.ui.main
 
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.util.Log
 import android.view.View
 import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
@@ -38,6 +40,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
 
     override fun addMainFragment() {
+
         naviGoToCharacterFragment()
     }
 

@@ -1,6 +1,5 @@
 package com.molchanov.molchanovrickandmorty.ui.main.characters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +32,6 @@ class CharactersRVAdapter(
 
     fun replaceData(characterPage: CharacterPage) {
         characterList = characterPage.characterList
-        Log.v("@@@", characterList.size.toString())
         notifyDataSetChanged()
     }
 

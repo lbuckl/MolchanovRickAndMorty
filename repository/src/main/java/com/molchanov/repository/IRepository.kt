@@ -1,10 +1,10 @@
-package com.molchanov.repository.remote
+package com.molchanov.repository
 
 import com.molchanov.repository.cases.ICharacterRequest
 import com.molchanov.repository.cases.IEpisodesRequest
 import com.molchanov.repository.cases.ILocationRequest
 
-interface IRepositoryRemote:
+interface IRepository:
     ICharacterRequest,
     ILocationRequest,
     IEpisodesRequest
