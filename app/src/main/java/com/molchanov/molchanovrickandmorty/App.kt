@@ -12,7 +12,7 @@ class App : Application() {
         lateinit var app: App
     }
 
-    fun getContext(): Context = app.getContext()
+    fun getContext(): Context = app.applicationContext
 
     //Основной компоненты Dagger 2
     lateinit var appComponent: AppComponent

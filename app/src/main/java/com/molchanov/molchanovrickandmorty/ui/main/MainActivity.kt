@@ -1,9 +1,11 @@
 package com.molchanov.molchanovrickandmorty.ui.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.PersistableBundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.data.networkstatus.INetworkStatus
@@ -14,7 +16,9 @@ import com.molchanov.molchanovrickandmorty.ui.main.episodes.EpisodesFragment
 import com.molchanov.molchanovrickandmorty.ui.main.locations.LocationsFragment
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
+import io.reactivex.rxjava3.core.Scheduler
 import javax.inject.Inject
+import javax.inject.Named
 
 /**
  * Основное активити приложения
@@ -24,6 +28,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     @Inject
     lateinit var networkStatus: INetworkStatus
+
+    @Inject @Named("io")
+    lateinit var ioFlow: Scheduler
+
+    @Inject @Named("main")
+    lateinit var mainFlow: Scheduler
 
     @Inject
     lateinit var router: IRouter
@@ -35,6 +45,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
         super.onCreate(savedInstanceState)
 
         initMenuListener()
+
+        initNetworkChecker()
     }
 
     override fun getViewBinding() = ActivityMainBinding.inflate(layoutInflater)
@@ -122,5 +134,12 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
             abMainActivityIcBack.vision(View.GONE)
         }
     }
-
+    private fun initNetworkChecker(){
+        networkStatus.isOnline()
+            .subscribeOn(ioFlow)
+            .observeOn(mainFlow)
+            .subscribe {
+                if (!it) Toast.makeText(this, "Связь потеряна", Toast.LENGTH_LONG).show()
+            }
+    }
 }

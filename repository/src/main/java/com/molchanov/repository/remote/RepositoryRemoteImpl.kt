@@ -6,6 +6,7 @@ import com.molchanov.repository.IRepository
 import com.molchanov.repository.remote.retrofit.RickAndMortyRequestIml
 import com.molchanov.repository.utils.DTOtoDomainMapper
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.schedulers.Schedulers
 
 class RepositoryRemoteImpl(
     private val rmRequestImpl: RickAndMortyRequestIml,
@@ -24,7 +25,7 @@ class RepositoryRemoteImpl(
         }
     }
 
-    override fun saveCharacters(characters: List<Character>) {
+    override fun saveCharacters(characterPage: CharacterPage, page: Int) {
         //TODO nothing
     }
 }

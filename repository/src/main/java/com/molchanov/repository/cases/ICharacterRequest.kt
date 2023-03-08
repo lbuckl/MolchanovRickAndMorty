@@ -12,5 +12,5 @@ interface ICharacterRequest {
 
     fun getCharacterInfo(url: String): Single<Character>
 
-    fun saveCharacters(characters: List<Character>)
+    fun saveCharacters(characterPage: CharacterPage, page: Int)
 }

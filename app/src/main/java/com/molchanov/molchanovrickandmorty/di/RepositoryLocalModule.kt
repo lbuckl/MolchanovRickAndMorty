@@ -4,8 +4,11 @@ import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.repository.IRepository
 import com.molchanov.repository.local.RepositoryLocalImpl
 import com.molchanov.repository.local.characters.CharactersDbExist
+import com.molchanov.repository.utils.DaoDomainMapper
 import dagger.Module
 import dagger.Provides
+import javax.inject.Named
+import javax.inject.Singleton
 
 @Module
 class RepositoryLocalModule {
@@ -16,7 +19,14 @@ class RepositoryLocalModule {
     }
 
     @Provides
-    fun repositoryLocalImpl(dbExist: CharactersDbExist): IRepository{
-        return RepositoryLocalImpl(dbExist)
+    fun mapper(): DaoDomainMapper = DaoDomainMapper()
+
+    @Provides
+    @Named("Local")
+    fun repositoryLocalImpl(
+        dbExist: CharactersDbExist,
+        mapper: DaoDomainMapper
+    ): IRepository{
+        return RepositoryLocalImpl(dbExist,mapper)
     }
 }

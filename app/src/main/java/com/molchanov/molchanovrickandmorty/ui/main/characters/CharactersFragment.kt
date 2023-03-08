@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.molchanov.domain.character.Character
 import com.molchanov.molchanovrickandmorty.App
+import com.molchanov.molchanovrickandmorty.data.networkstatus.INetworkStatus
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
 import com.molchanov.molchanovrickandmorty.ui.base.ViewModelFactory
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
-    @Inject lateinit var vmFactory: ViewModelFactory
+    @Inject
+    lateinit var vmFactory: ViewModelFactory
 
     companion object {
         val instance = CharactersFragment()
