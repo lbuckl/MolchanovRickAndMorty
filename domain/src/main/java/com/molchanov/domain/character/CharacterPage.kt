@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class CharacterPage (
     val pageNum: Int,
+    val pageActual: Int,
     val prev: String?,
     val next: String?,
     val characterList: List<Character>

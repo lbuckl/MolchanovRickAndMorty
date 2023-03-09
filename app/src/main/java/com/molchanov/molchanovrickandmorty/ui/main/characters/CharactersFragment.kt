@@ -6,15 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.molchanov.domain.character.Character
 import com.molchanov.molchanovrickandmorty.App
-import com.molchanov.molchanovrickandmorty.data.networkstatus.INetworkStatus
+import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
 import com.molchanov.molchanovrickandmorty.ui.base.ViewModelFactory
-import com.molchanov.molchanovrickandmorty.ui.main.pagination.PaginationRVAdapter
+import com.molchanov.molchanovrickandmorty.ui.pagination.PaginationRVAdapter
+import com.molchanov.molchanovrickandmorty.utils.loadImageFromUrl
+import com.molchanov.molchanovrickandmorty.utils.vision
 import javax.inject.Inject
 
+/**
+ * Фрагмент для взаимодействия со списком персонажей
+ */
 class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
     @Inject
@@ -27,13 +33,21 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
     private lateinit var viewModel: CharactersViewModel
 
+    /**
+     * Коллбэк от элементов reciclerView со списком персонажей
+     */
     private val onRVItemClickListener = object : CharactersRVAdapter.OnListItemClickListener {
         override fun onItemClick(data: Character) {
         }
     }
 
+    /**
+     * Коллбэк от элементов reciclerView с пагинацией
+     */
     private val onPagRVItemClickListener = object : PaginationRVAdapter.OnListItemClickListener {
         override fun onItemClick(data: Pair<Int, Boolean>) {
+            binding.errorLayout.vision(View.GONE)
+
             viewModel.getData(data.first)
         }
     }
@@ -52,6 +66,8 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         initRvAdapters()
 
         initViewModel()
+
+        initButtons()
 
         return binding.root
     }
@@ -79,14 +95,41 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         }
     }
 
+    private fun initButtons(){
+        binding.btnReload.setOnClickListener {
+
+            binding.errorLayout.vision(View.GONE)
+
+            viewModel.reloadData()
+        }
+    }
+
     private fun renderData(state: CharactersAppState){
+
         when(state){
             is CharactersAppState.Success -> {
-               rvAdapter.replaceData(state.data)
-               pagRvAdapter.replaceData(state.data.pageNum)
+                binding.errorLayout.vision(View.GONE)
+
+                with(state.data){
+                    rvAdapter.replaceData(this)
+                    pagRvAdapter.replaceData(pageNum, pageActual)
+                }
             }
             is CharactersAppState.Error -> {
+                binding.errorLayout.vision(View.VISIBLE)
 
+                Snackbar.make(binding.root,state.errorMsg,Snackbar.LENGTH_LONG).show()
+            }
+            is CharactersAppState.Loading ->{
+                with(binding.ivLoading){
+                    if (state.isLoading) {
+                        vision(View.VISIBLE)
+                        loadImageFromUrl(R.drawable.gif_rm_dance)
+                    }
+                    else{
+                        vision(View.GONE)
+                    }
+                }
             }
         }
     }

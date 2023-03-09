@@ -2,7 +2,6 @@ package com.molchanov.repository.local.characters
 
 
 import android.content.Context
-import android.util.Log
 import androidx.room.Room
 
 class CharactersDbExist(private val context: Context) {

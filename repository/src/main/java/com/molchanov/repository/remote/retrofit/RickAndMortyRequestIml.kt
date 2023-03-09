@@ -1,5 +1,6 @@
 package com.molchanov.repository.remote.retrofit
 
+import com.molchanov.repository.remote.characters.CharactersApi
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -8,9 +9,19 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
+/**
+ * Основной класс для создания Retrofit объектов запроса в API Rick and Morty
+ */
 class RickAndMortyRequestIml{
 
     private val baseUrl = "https://rickandmortyapi.com"
+
+    //region Retrofit объекты
+    //Запрос персонажей
+    fun getCharactersRetrofit(): CharactersApi {
+        return retrofit.create(CharactersApi::class.java)
+    }
+    //endregion
 
     private val retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -19,9 +30,6 @@ class RickAndMortyRequestIml{
         .client(createOkHttpClient(RMInterceptor()))
         .build()
 
-    fun getCharactersRetrofit(): CharactersApi {
-        return retrofit.create(CharactersApi::class.java)
-    }
 
     private fun createOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val httpClient = OkHttpClient.Builder().let {

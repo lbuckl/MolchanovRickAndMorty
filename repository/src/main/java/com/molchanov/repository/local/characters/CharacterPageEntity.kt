@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "CharacterPageTab")
 data class CharacterPageEntity (
-    @PrimaryKey()
+    @PrimaryKey
     val id: Long,
     val pageNum: Int,
     val pageActual: Int,

@@ -1,6 +1,5 @@
-package com.molchanov.molchanovrickandmorty.ui.main.pagination
+package com.molchanov.molchanovrickandmorty.ui.pagination
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -48,26 +47,25 @@ class PaginationRVAdapter(
 
         holder.itemView.setOnClickListener {
 
-            if (oldActivePage != (position + 1))
+            /*if (oldActivePage != (position + 1))
 
             oldActivePage = position + 1
 
-            replaceData(pageList.size, position + 1)
+            replaceData(pageList.size, position + 1)*/
 
             callback.onItemClick(pageList[position])
-        }
-    }
-
-    fun replaceData(pageNum: Int) {
-        createPageList(pageNum, oldActivePage).let {
-            pageList = it
-            notifyDataSetChanged()
         }
     }
 
     fun replaceData(pageNum: Int, activePage: Int) {
         createPageList(pageNum, activePage).let {
             pageList = it
+
+            if (oldActivePage != (activePage))
+            {
+                oldActivePage = activePage
+            }
+
             notifyDataSetChanged()
         }
     }

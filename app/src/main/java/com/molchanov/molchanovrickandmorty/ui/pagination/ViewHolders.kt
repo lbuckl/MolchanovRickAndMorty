@@ -1,4 +1,4 @@
-package com.molchanov.molchanovrickandmorty.ui.main.pagination
+package com.molchanov.molchanovrickandmorty.ui.pagination
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

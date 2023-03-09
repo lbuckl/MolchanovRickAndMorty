@@ -1,4 +1,4 @@
-package com.molchanov.repository.remote.dto.characters
+package com.molchanov.repository.remote.characters.dto
 
 
 import com.google.gson.annotations.SerializedName

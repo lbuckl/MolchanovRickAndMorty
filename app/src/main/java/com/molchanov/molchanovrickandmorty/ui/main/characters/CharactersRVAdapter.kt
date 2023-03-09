@@ -7,6 +7,9 @@ import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersRvItemBinding
 
+/**
+ * Адаптер для отображения и взаимодействия персонажей
+ */
 class CharactersRVAdapter(
     private val callback: OnListItemClickListener
 ): RecyclerView.Adapter<CharactersBaseViewHolder>() {
