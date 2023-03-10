@@ -15,10 +15,10 @@ class CharactersDefaultViewHolder(view: View) : CharactersBaseViewHolder(view) {
     override fun bind(data: Character) {
         FragmentCharactersRvItemBinding.bind(itemView).also {
             it.ivCharacterIcon.loadImageFromUrl(data.imgUrl)
-            it.tvCharacterName.text = data.name
-            it.tvCharacterSpec.text = data.spec
-            it.tvCharacterGender.text = data.gender
-            it.tvCharacterStatus.text = data.status
+            it.tvCharacterName.text = "Name: ${data.name}"
+            it.tvCharacterSpec.text = "Spec: ${data.spec}"
+            it.tvCharacterGender.text = "Gender: ${data.gender}"
+            it.tvCharacterStatus.text = "Status: ${data.status}"
         }
     }
 }

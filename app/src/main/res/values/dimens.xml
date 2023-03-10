@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <!-- General. -->
+    <dimen name="card_radius_def">10dp</dimen>
+    <dimen name="card_elevation_def">2dp</dimen>
+
+    <dimen name="error_text_size">36sp</dimen>
+
+    <!-- Characters. -->
+    <dimen name="iv_character_item_icon_size">200dp</dimen>
+    <dimen name="character_item_margin">4dp</dimen>
+</resources>

@@ -16,6 +16,7 @@
         android:id="@+id/rv_characters"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:backgroundTint="@color/blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -39,6 +40,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
+        android:backgroundTint="@color/blue_light"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -57,10 +59,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/red_bright"
             android:background="#00FFFFFF"
-            android:textSize="36dp"
+            android:textSize="@dimen/error_text_size"
             android:layout_alignTop="@+id/iv_fail"
             android:layout_centerHorizontal="true"
-            android:text="Error" />
+            android:text="@string/error" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_reload"
@@ -68,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:backgroundTint="@color/black"
-            android:text="Reload" />
+            android:text="@string/reload" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

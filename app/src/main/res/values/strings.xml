@@ -1,7 +1,19 @@
 <resources>
+
+    <!-- General. -->
     <string name="app_name">RickAndMorty</string>
-    <string name="characters">Characters</string>
-    <string name="locations">Locations</string>
-    <string name="episodes">Episodes</string>
     <string name="rick_and_morty">Rick and Morty</string>
+    <string name="error">Error</string>
+    <string name="reload">Reload</string>
+
+    <!-- Characters. -->
+    <string name="characters">Characters</string>
+
+    <!-- Locations. -->
+    <string name="locations">Locations</string>
+
+    <!-- Episodes. -->
+    <string name="episodes">Episodes</string>
+
+
 </resources>
