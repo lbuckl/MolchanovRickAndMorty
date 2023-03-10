@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Single
 /**
  * Интерфейс для реализации взаимодействия с API
  */
-interface IRemoteRequest <K, L, V : Any, T: Any>:
+interface IRemoteRequest <KEY, ID, DATA : Any, D: Any>:
 
-    IGetData<K, Single<V>>,
-    IGetDetailInfo<L, Single<List<T>>>
+    IGetData<KEY, Single<DATA>>,
+    IGetDetailInfo<ID, Single<List<D>>>

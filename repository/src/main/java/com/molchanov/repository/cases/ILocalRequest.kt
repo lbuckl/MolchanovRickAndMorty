@@ -8,8 +8,8 @@ import io.reactivex.rxjava3.core.Single
 /**
  * Интерфейс для реализации взаимодействия с БД
  */
-interface ILocalRequest <K, L, V: Any, T : Any>:
+interface ILocalRequest <KEY, ID, DATA: Any, D: Any>:
 
-    IGetData<K, Single<V>>,
-    IGetDetailInfo<L, Single<List<T>>>,
-    ISaveData<V, K>
+    IGetData<KEY, Single<DATA>>,
+    IGetDetailInfo<ID, Single<List<D>>>,
+    ISaveData<DATA, KEY>

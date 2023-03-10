@@ -14,6 +14,9 @@ import com.molchanov.molchanovrickandmorty.ui.main.locations.LocationsFragment
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.DisposableContainer
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -34,6 +37,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     @Inject
     lateinit var router: IRouter
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -132,11 +137,18 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
         }
     }
     private fun initNetworkChecker(){
+        disposable.add(
         networkStatus.isOnline()
             .subscribeOn(ioFlow)
             .observeOn(mainFlow)
             .subscribe {
                 if (!it) Toast.makeText(this, "Связь потеряна", Toast.LENGTH_LONG).show()
             }
+        )
+    }
+
+    override fun onDestroy() {
+        disposable.clear()
+        super.onDestroy()
     }
 }

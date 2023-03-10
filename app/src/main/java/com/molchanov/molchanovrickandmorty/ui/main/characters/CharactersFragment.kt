@@ -12,19 +12,14 @@ import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
-import com.molchanov.molchanovrickandmorty.ui.base.ViewModelFactory
 import com.molchanov.molchanovrickandmorty.ui.pagination.PaginationRVAdapter
 import com.molchanov.molchanovrickandmorty.utils.loadImageFromUrl
 import com.molchanov.molchanovrickandmorty.utils.vision
-import javax.inject.Inject
 
 /**
  * Фрагмент для взаимодействия со списком персонажей
  */
 class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
-
-    @Inject
-    lateinit var vmFactory: ViewModelFactory
 
     companion object {
         val instance = CharactersFragment()
