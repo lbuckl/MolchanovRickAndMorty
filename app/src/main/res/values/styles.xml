@@ -6,6 +6,7 @@
         <item name="android:textColor">@color/green_bright</item>
     </style>
 
+    <!-- Characters. -->
     <style name="Character_item_theme" parent="Theme.MolchanovRickAndMorty">
         <item name="fontFamily">@font/font_text</item>
         <item name="android:background">@color/blue_light_secondary</item>
@@ -13,4 +14,9 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+
+    <!-- Pagination. -->
+    <style name="Pagination_item_style" parent="Widget.AppCompat.TextView.SpinnerItem">
+        <item name="android:textSize">32sp</item>
+    </style>
 </resources>
