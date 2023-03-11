@@ -14,15 +14,15 @@ class EpisodesFragment(): BaseFragment<FragmentEpisodesBinding>() {
         const val FRAGMENT_TAG = "EpisodesFragment_IdentificationTag"
     }
 
-    override val binding: FragmentEpisodesBinding
-    get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentEpisodesBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    override fun getViewBinding(): FragmentEpisodesBinding {
+        return FragmentEpisodesBinding.inflate(layoutInflater)
     }
 }

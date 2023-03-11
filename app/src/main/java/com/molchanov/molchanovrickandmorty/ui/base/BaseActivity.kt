@@ -9,6 +9,7 @@ abstract class BaseActivity<T : ViewBinding> : AppCompatActivity() {
     lateinit var binding: T
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         binding = getViewBinding()
 
         super.onCreate(savedInstanceState)
