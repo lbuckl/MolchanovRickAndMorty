@@ -1,11 +1,17 @@
 package com.molchanov.molchanovrickandmorty.ui.main.characters
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Transformation
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.TransitionOptions
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import com.molchanov.domain.character.Character
 import com.molchanov.molchanovrickandmorty.App
@@ -27,6 +33,8 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
     }
 
     private lateinit var viewModel: CharactersViewModel
+
+    private var localLoading = false
 
     /**
      * Коллбэк от элементов reciclerView со списком персонажей
@@ -64,6 +72,8 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
         initButtons()
 
+        initLoading()
+
         return binding.root
     }
 
@@ -99,6 +109,15 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         }
     }
 
+    private fun initLoading(){
+        with(binding.ivLoading){
+            Glide.with(this)
+                .load(R.drawable.gif_rm_dance)
+                .placeholder(R.drawable.ic_no_photo_vector)
+                .into(this)
+        }
+    }
+
     private fun renderData(state: CharactersAppState){
 
         when(state){
@@ -118,12 +137,30 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
             is CharactersAppState.Loading ->{
                 with(binding.ivLoading){
                     if (state.isLoading) {
-                        vision(View.VISIBLE)
-                        loadImageFromUrl(R.drawable.gif_rm_dance)
+
+                        localLoading = true
+
+                        loadingShowDelay()
+
+                        //vision(View.VISIBLE)
                     }
                     else{
+                        localLoading = true
+
                         vision(View.GONE)
                     }
+                }
+            }
+        }
+    }
+
+    private fun loadingShowDelay(){
+        Thread {
+            Thread.sleep(500)
+
+            if (localLoading) {
+                Handler(Looper.myLooper()!!).post {
+                    binding.ivLoading.vision(View.VISIBLE)
                 }
             }
         }

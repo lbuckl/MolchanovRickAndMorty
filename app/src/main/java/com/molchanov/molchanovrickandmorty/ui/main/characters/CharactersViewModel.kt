@@ -37,7 +37,7 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     lateinit var repoRemote: IRemoteRequest<Int, String, CharacterPage, Character>
 
     @Inject
-    @Named("Local")
+    @Named("CharacterRepoLocal")
     lateinit var repoLocal: ILocalRequest<Int, Int, CharacterPage, Character>
 
     @Inject @Named("io")

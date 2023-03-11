@@ -25,7 +25,7 @@ class RepositoryLocalModule {
 
     @Singleton
     @Provides
-    @Named("Local")
+    @Named("CharacterRepoLocal")
     fun repositoryCharacterLocalImpl(
         dbExist: CharactersDbExist,
         mapper: DaoDomainMapper
