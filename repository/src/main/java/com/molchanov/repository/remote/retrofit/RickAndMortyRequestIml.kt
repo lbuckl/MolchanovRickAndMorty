@@ -8,11 +8,12 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import javax.inject.Inject
 
 /**
  * Основной класс для создания Retrofit объектов запроса в API Rick and Morty
  */
-class RickAndMortyRequestIml{
+class RickAndMortyRequestIml @Inject constructor(){
 
     private val baseUrl = "https://rickandmortyapi.com"
 

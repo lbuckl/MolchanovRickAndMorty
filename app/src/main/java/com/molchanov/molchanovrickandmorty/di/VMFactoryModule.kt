@@ -1,16 +1,15 @@
 package com.molchanov.molchanovrickandmorty.di
 
+import androidx.lifecycle.ViewModelProvider
 import com.molchanov.molchanovrickandmorty.ui.base.ViewModelFactory
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class VMFactoryModule {
+abstract class VMFactoryModule {
 
     @Singleton
-    @Provides
-    fun getVMFactory(): ViewModelFactory {
-       return ViewModelFactory()
-    }
+    @Binds
+    abstract fun getVMFactory(vmFactory: ViewModelFactory): ViewModelProvider.NewInstanceFactory
 }

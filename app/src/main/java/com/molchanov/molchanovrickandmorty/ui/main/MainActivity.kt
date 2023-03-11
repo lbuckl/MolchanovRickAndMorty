@@ -15,8 +15,7 @@ import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.disposables.DisposableContainer
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -139,11 +138,16 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
     private fun initNetworkChecker(){
         disposable.add(
         networkStatus.isOnline()
-            .subscribeOn(ioFlow)
+            .subscribeOn(Schedulers.single())
             .observeOn(mainFlow)
-            .subscribe {
-                if (!it) Toast.makeText(this, "Связь потеряна", Toast.LENGTH_LONG).show()
-            }
+            .subscribe(
+                {
+                    if (!it) Toast.makeText(this, "connection lost", Toast.LENGTH_LONG).show()
+                },
+                {
+                    Toast.makeText(this, "Unknown network state", Toast.LENGTH_LONG).show()
+                }
+            )
         )
     }
 

@@ -4,7 +4,7 @@ import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.cases.IRemoteRequest
 import com.molchanov.repository.remote.retrofit.RickAndMortyRequestIml
-import com.molchanov.repository.utils.DTOtoDomainMapper
+import com.molchanov.repository.utils.DtoDomainMapper
 import io.reactivex.rxjava3.core.Single
 
 /**
@@ -12,13 +12,13 @@ import io.reactivex.rxjava3.core.Single
  */
 class CharacterRepoRemoteImpl(
     private val rmRequestImpl: RickAndMortyRequestIml,
-    private val dtoToDomainMapper: DTOtoDomainMapper
+    private val dtoDomainMapper: DtoDomainMapper
     ): IRemoteRequest<Int, String, CharacterPage, Character> {
 
     override fun getData(requestData: Int): Single<CharacterPage> {
 
         return rmRequestImpl.getCharactersRetrofit().getCharacters(requestData.toString()).map { dto ->
-            dtoToDomainMapper.charactersDTOtoDomainPage(dto, requestData)
+            dtoDomainMapper.charactersDTOtoDomainPage(dto, requestData)
         }
     }
 

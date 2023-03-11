@@ -5,7 +5,7 @@ import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.cases.IRemoteRequest
 import com.molchanov.repository.remote.characters.CharacterRepoRemoteImpl
 import com.molchanov.repository.remote.retrofit.RickAndMortyRequestIml
-import com.molchanov.repository.utils.DTOtoDomainMapper
+import com.molchanov.repository.utils.DtoDomainMapper
 import dagger.Module
 import dagger.Provides
 import javax.inject.Named
@@ -17,18 +17,12 @@ import javax.inject.Singleton
 @Module
 class RepositoryRemoteModule {
 
-    @Provides
-    fun rickAndMortyRequest() = RickAndMortyRequestIml()
-
-    @Provides
-    fun mapper() = DTOtoDomainMapper()
-
     @Singleton
     @Provides
-    @Named("Remote")
+    @Named("CharacterRepoRemote")
     fun repositoryCharacterRemoteImpl(
         request: RickAndMortyRequestIml,
-        mapper: DTOtoDomainMapper
+        mapper: DtoDomainMapper
     ): IRemoteRequest<Int, String, CharacterPage, Character> {
         return CharacterRepoRemoteImpl(request,mapper)
     }

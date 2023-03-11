@@ -23,9 +23,6 @@ class RepositoryLocalModule {
         return CharactersDbExist(app.getContext())
     }
 
-    @Provides
-    fun mapper(): DaoDomainMapper = DaoDomainMapper()
-
     @Singleton
     @Provides
     @Named("Local")

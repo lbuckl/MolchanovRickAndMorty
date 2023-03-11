@@ -6,8 +6,9 @@ import android.net.Network
 import android.net.NetworkRequest
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import javax.inject.Inject
 
-class NetworkStatus(context: Context) : INetworkStatus {
+class NetworkStatus @Inject constructor(context: Context) : INetworkStatus {
 
     private val statusSubject: BehaviorSubject<Boolean> =
         BehaviorSubject.create()

@@ -33,7 +33,7 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
 
     //region инициализация переменных
     @Inject
-    @Named("Remote")
+    @Named("CharacterRepoRemote")
     lateinit var repoRemote: IRemoteRequest<Int, String, CharacterPage, Character>
 
     @Inject

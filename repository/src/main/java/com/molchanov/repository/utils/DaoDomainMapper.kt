@@ -1,11 +1,11 @@
 package com.molchanov.repository.utils
 
-import android.util.Log
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.local.characters.CharacterPageEntity
+import javax.inject.Inject
 
-class DaoDomainMapper {
+class DaoDomainMapper @Inject constructor(){
 
     fun domainToDao(characterPage: CharacterPage, page: Int): List<CharacterPageEntity> =
         characterPage.characterList.map {

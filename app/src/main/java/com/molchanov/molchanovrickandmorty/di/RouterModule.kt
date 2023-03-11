@@ -2,14 +2,12 @@ package com.molchanov.molchanovrickandmorty.di
 
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.ui.router.Router
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 
 @Module
-class RouterModule {
+abstract class RouterModule {
 
-    @Provides
-    fun getRouter(): IRouter {
-        return Router()
-    }
+    @Binds
+    abstract fun getRouter(router: Router): IRouter
 }

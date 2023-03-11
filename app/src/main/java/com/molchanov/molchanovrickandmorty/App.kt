@@ -5,8 +5,9 @@ import android.content.Context
 import com.molchanov.molchanovrickandmorty.di.AppComponent
 import com.molchanov.molchanovrickandmorty.di.AppModule
 import com.molchanov.molchanovrickandmorty.di.DaggerAppComponent
+import javax.inject.Inject
 
-class App : Application() {
+class App @Inject constructor(): Application() {
 
     companion object{
         lateinit var app: App

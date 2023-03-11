@@ -3,6 +3,7 @@ package com.molchanov.molchanovrickandmorty.ui.router
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import javax.inject.Inject
 
 /**
  * Класс навигации по фрагментам
@@ -10,7 +11,7 @@ import androidx.fragment.app.FragmentManager
  * @param fragment - фрагмент для замены
  * @param tag - тэг под которым был сохранён фрагмент
  */
-class Router : IRouter {
+class Router @Inject constructor(): IRouter {
 
     override fun addFragment(fragmentManager: FragmentManager, fragmentRepId: Int,
                              fragment: Fragment, tag: String) {

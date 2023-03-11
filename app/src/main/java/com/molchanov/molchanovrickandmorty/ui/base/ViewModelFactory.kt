@@ -3,8 +3,9 @@ package com.molchanov.molchanovrickandmorty.ui.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.molchanov.molchanovrickandmorty.ui.main.characters.CharactersViewModel
+import javax.inject.Inject
 
-class ViewModelFactory: ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory @Inject constructor(): ViewModelProvider.NewInstanceFactory() {
 
     private val viewModelMap = HashMap<Class<*>, ViewModel>()
 

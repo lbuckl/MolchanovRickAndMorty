@@ -2,12 +2,13 @@ package com.molchanov.repository.utils
 
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
-import com.molchanov.repository.remote.characters.dto.CharacterDTO
 import com.molchanov.repository.remote.characters.dto.CharacterDetails
+import com.molchanov.repository.remote.characters.dto.CharacterDto
+import javax.inject.Inject
 
-class DTOtoDomainMapper {
+class DtoDomainMapper @Inject constructor(){
 
-    fun charactersDTOtoDomainPage(characters: CharacterDTO, page: Int): CharacterPage =
+    fun charactersDTOtoDomainPage(characters: CharacterDto, page: Int): CharacterPage =
         CharacterPage(
             pageNum = characters.info.pages,
             pageActual = page,
