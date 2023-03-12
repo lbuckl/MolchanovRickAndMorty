@@ -19,13 +19,16 @@ class DtoDomainMapper @Inject constructor(){
             }
         )
 
-    fun charactersDTOtoDomain(character: CharacterDetails): Character =
+    private fun charactersDTOtoDomain(character: CharacterDetails): Character =
         Character(
             id = character.id,
             name = character.name,
             spec = character.species,
             status = character.status,
             gender = character.gender,
-            imgUrl = character.image
+            imgUrl = character.image,
+            episodes = character.episode.map {
+                it
+            }
         )
 }

@@ -16,6 +16,8 @@ data class CharacterDetails(
     val species: String,
     @SerializedName("status")
     val status: String,
+    @SerializedName("episode")
+    val episode: List<String>,
     //Возможно пригодятся
     @Transient
     @SerializedName("origin")
@@ -25,11 +27,5 @@ data class CharacterDetails(
     val type: String,
     @Transient
     @SerializedName("url")
-    val url: String,
-    @Transient
-    @SerializedName("created")
-    val created: String,
-    @Transient
-    @SerializedName("episode")
-    val episode: List<String>
+    val url: String
 )

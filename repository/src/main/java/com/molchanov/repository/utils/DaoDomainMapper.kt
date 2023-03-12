@@ -2,6 +2,7 @@ package com.molchanov.repository.utils
 
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
+import com.molchanov.repository.local.characters.CharacterEpisodeEntity
 import com.molchanov.repository.local.characters.CharacterPageEntity
 import javax.inject.Inject
 
@@ -21,6 +22,20 @@ class DaoDomainMapper @Inject constructor(){
                 )
             }
 
+    fun episodeDomainToEntity(characterPage: CharacterPage): List<CharacterEpisodeEntity>{
+
+        val result: MutableList<CharacterEpisodeEntity> = mutableListOf()
+
+        characterPage.characterList.forEach { char ->
+            char.episodes.forEach {
+                result.add(CharacterEpisodeEntity(0, char.id, it))
+            }
+        }
+
+        return result.toList()
+
+    }
+
 
     fun daoToDomain(characterPage: List<CharacterPageEntity>): CharacterPage =
         CharacterPage(
@@ -35,7 +50,8 @@ class DaoDomainMapper @Inject constructor(){
                     it.spec,
                     it.status,
                     it.gender,
-                    it.imgUrl
+                    it.imgUrl,
+                    listOf()
                 )
             }
         )

@@ -6,10 +6,16 @@ import androidx.room.RoomDatabase
 /**
  * БД персонажей
  */
-@Database(entities = [CharacterPageEntity::class], version = 1)
+@Database(entities = [
+    CharacterPageEntity::class,
+    CharacterEpisodeEntity::class
+    ], version = 1)
+
 abstract class CharactersDB: RoomDatabase() {
+
     companion object {
         const val CHAR_DB_NAME = "CHARACTER_DB"
+        const val CHAR_EPISODE_DB_NAME = "CHARACTER_EPISODE_DB"
     }
 
     abstract fun getDAO(): CharactersDAO

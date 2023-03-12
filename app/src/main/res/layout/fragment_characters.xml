@@ -2,15 +2,62 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/include"
-        layout="@layout/pagination_rv_layout"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar_character"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?attr/custom_bar_color"
+            android:orientation="horizontal">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ab_mainActivity_ic_back"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:visibility="gone"
+                android:layout_gravity="start"
+                android:src="@drawable/ic_button_back_color"
+                android:background="?attr/custom_bar_color"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ab_mainActivity_tv_header"
+                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                style="@style/HeaderStyle"
+                android:fontFamily="@font/font_header"
+                android:gravity="center"
+                android:text="@string/characters"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/custom_bar_color" />
+        </FrameLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/pagination_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar_character">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/pagination_rv_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_characters"
@@ -21,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:layout_constraintTop_toBottomOf="@+id/pagination_layout"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
@@ -44,7 +91,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/include">
+        app:layout_constraintTop_toBottomOf="@+id/pagination_layout">
 
         <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/iv_fail"
@@ -76,11 +123,11 @@
     <FrameLayout
         android:id="@+id/fl_character_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appBar_character"
         android:visibility="gone"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

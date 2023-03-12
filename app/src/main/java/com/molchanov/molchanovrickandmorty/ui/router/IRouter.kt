@@ -16,4 +16,7 @@ interface IRouter {
                                    fragment: Fragment, tag: String,
                                    message: Bundle
     )
+
+    fun deleteFragment(fragmentManager: FragmentManager, fragmentRepId: Int,
+                       fragment: Fragment, tag: String)
 }

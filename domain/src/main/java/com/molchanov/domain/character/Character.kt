@@ -10,5 +10,6 @@ data class Character (
         val spec: String, //Вид
         val status: String,
         val gender: String,
-        val imgUrl: String
+        val imgUrl: String,
+        val episodes: List<String>
         ): Parcelable

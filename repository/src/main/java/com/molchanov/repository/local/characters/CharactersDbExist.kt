@@ -6,15 +6,25 @@ import androidx.room.Room
 
 class CharactersDbExist(private val context: Context) {
 
-    private val translateDB: CharactersDB? = null
+    private val characterDB: CharactersDB? = null
+
+    private val characterEpisodeDB: CharactersDB? = null
 
     fun getCharactersDB(): CharactersDB {
-        return translateDB
+        return characterDB
             ?: Room.databaseBuilder(
                 context,
                 CharactersDB::class.java,
                 CharactersDB.CHAR_DB_NAME
-            )
-            .build()
+            ).build()
+    }
+
+    fun getCharacterEpisodeDB(): CharactersDB {
+        return characterEpisodeDB
+            ?: Room.databaseBuilder(
+                context,
+                CharactersDB::class.java,
+                CharactersDB.CHAR_EPISODE_DB_NAME
+            ).build()
     }
 }

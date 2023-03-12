@@ -38,6 +38,9 @@ class CharacterRepoLocalImpl(
 
         dbExist.getCharactersDB().getDAO().insertAll(mapper.domainToDao(data, key))
 
+        dbExist.getCharacterEpisodeDB().getDAO()
+            .insertEpisodes(mapper.episodeDomainToEntity(data))
+
         lastPage = data
     }
 }

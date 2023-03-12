@@ -14,12 +14,6 @@ import javax.inject.Inject
  */
 class Router @Inject constructor(): IRouter {
 
-    lateinit var fragmentManager: FragmentManager
-
-    fun initFragmentManager(fragmentManager: FragmentManager){
-        this.fragmentManager = fragmentManager
-    }
-
     override fun addFragment(fragmentManager: FragmentManager, fragmentRepId: Int,
                              fragment: Fragment, tag: String) {
 
@@ -71,6 +65,15 @@ class Router @Inject constructor(): IRouter {
             }
         } catch (e: IllegalStateException) {
             e.printStackTrace()
+        }
+    }
+
+    override fun deleteFragment(fragmentManager: FragmentManager, fragmentRepId: Int,
+                                fragment: Fragment, tag: String){
+
+        fragmentManager.findFragmentByTag(tag)?.let {
+            fragmentManager.beginTransaction()
+                .remove(it)
         }
     }
 }

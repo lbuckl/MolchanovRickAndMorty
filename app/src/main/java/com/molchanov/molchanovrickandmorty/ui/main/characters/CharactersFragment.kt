@@ -107,11 +107,25 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
     }
 
     private fun initButtons(){
+
         binding.btnReload.setOnClickListener {
 
             binding.errorLayout.vision(View.GONE)
 
             viewModel.reloadData()
+        }
+
+        binding.abMainActivityIcBack.setOnClickListener {
+            router.deleteFragment(
+                childFragmentManager,
+                binding.flCharacterContainer.id,
+                CharacterDetailsFragment.instance,
+                CharacterDetailsFragment.FRAGMENT_TAG
+            )
+
+            binding.flCharacterContainer.vision(View.GONE)
+
+            binding.abMainActivityIcBack.vision(View.GONE)
         }
     }
 
@@ -151,6 +165,8 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
                 )
 
                 binding.flCharacterContainer.vision(View.VISIBLE)
+
+                binding.abMainActivityIcBack.vision(View.VISIBLE)
             }
             is CharactersAppState.Error -> {
                 binding.errorLayout.vision(View.VISIBLE)

@@ -3,11 +3,14 @@ package com.molchanov.molchanovrickandmorty.ui.main
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.data.networkstatus.INetworkStatus
 import com.molchanov.molchanovrickandmorty.databinding.ActivityMainBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseActivity
+import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
 import com.molchanov.molchanovrickandmorty.ui.main.characters.CharactersFragment
 import com.molchanov.molchanovrickandmorty.ui.main.episodes.EpisodesFragment
 import com.molchanov.molchanovrickandmorty.ui.main.locations.LocationsFragment
@@ -49,7 +52,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     override fun addMainFragment() {
 
-        naviGoToCharacterFragment()
+        navigateTo(
+            CharactersFragment.instance,
+            CharactersFragment.FRAGMENT_TAG
+        )
     }
 
     private fun initMenuListener() {
@@ -61,79 +67,43 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
                 when (item) {
                     menu.findItem(R.id.bv_item_characters) -> {
 
-                        naviGoToCharacterFragment()
+                        navigateTo(
+                            CharactersFragment.instance,
+                            CharactersFragment.FRAGMENT_TAG
+                        )
                     }
                     menu.findItem(R.id.bv_item_locations) -> {
 
-                        naviGoToLocationFragment()
+                        navigateTo(
+                            LocationsFragment.instance,
+                            LocationsFragment.FRAGMENT_TAG
+                        )
                     }
                     menu.findItem(R.id.bv_item_episodes) -> {
 
-                        naviGoToEpisodesFragment()
+                        navigateTo(
+                            EpisodesFragment.instance,
+                            EpisodesFragment.FRAGMENT_TAG
+                        )
                     }
                 }
 
                 return@setOnItemSelectedListener true
             }
         }
-
-        binding.abMainActivityIcHome.setOnClickListener {
-            naviGoToCharacterFragment()
-        }
     }
 
-    private fun naviGoToCharacterFragment(){
+    private fun navigateTo(fragment: Fragment, tag: String){
 
         with(binding){
             router.addFragment(
                 supportFragmentManager,
                 container.id,
-                CharactersFragment.instance,
-                CharactersFragment.FRAGMENT_TAG)
-
-            abMainActivityTvHeader.text = resources.getString(R.string.characters)
-
-            abMainActivityIcHome.vision(View.GONE)
-
-            abMainActivityIcBack.vision(View.GONE)
+                fragment,
+                tag)
         }
     }
 
-    private fun naviGoToLocationFragment(){
-
-        with(binding){
-            router.replaceFragment(
-                supportFragmentManager,
-                container.id,
-                LocationsFragment.instance,
-                LocationsFragment.FRAGMENT_TAG
-            )
-
-            abMainActivityTvHeader.text = resources.getString(R.string.locations)
-
-            abMainActivityIcHome.vision(View.VISIBLE)
-
-            abMainActivityIcBack.vision(View.GONE)
-        }
-    }
-
-    private fun naviGoToEpisodesFragment(){
-
-        with(binding){
-            router.replaceFragment(
-                supportFragmentManager,
-                container.id,
-                EpisodesFragment.instance,
-                EpisodesFragment.FRAGMENT_TAG
-            )
-
-            abMainActivityTvHeader.text = resources.getString(R.string.episodes)
-
-            abMainActivityIcHome.vision(View.VISIBLE)
-
-            abMainActivityIcBack.vision(View.GONE)
-        }
-    }
     private fun initNetworkChecker(){
         disposable.add(
         networkStatus.isOnline()
