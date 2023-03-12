@@ -14,6 +14,8 @@ class CharacterRepoLocalImpl(
     private val mapper: DaoDomainMapper
     ): ILocalRequest<Int, Int, CharacterPage, Character> {
 
+    private var lastPage: CharacterPage? = null
+
     override fun getData(requestData: Int): Single<CharacterPage> {
 
         return dbExist.getCharactersDB().getDAO().queryPage(requestData).map {
@@ -21,12 +23,21 @@ class CharacterRepoLocalImpl(
         }
     }
 
-    override fun getDetailInfo(id: Int): Single<List<Character>> {
-        TODO("Not yet implemented")
+    override fun getDetailInfo(id: Int): Character? {
+        lastPage?.let {
+                it.characterList.forEach { char ->
+                    if (char.id == id) return char
+                }
+
+        }
+
+        return null
     }
 
     override fun saveData(data: CharacterPage, key: Int) {
 
         dbExist.getCharactersDB().getDAO().insertAll(mapper.domainToDao(data, key))
+
+        lastPage = data
     }
 }

@@ -76,6 +76,10 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
                 return@setOnItemSelectedListener true
             }
         }
+
+        binding.abMainActivityIcHome.setOnClickListener {
+            naviGoToCharacterFragment()
+        }
     }
 
     private fun naviGoToCharacterFragment(){

@@ -136,6 +136,17 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
         liveData.postValue(CharactersAppState.Loading(state))
     }
 
+    fun getCharacter(id: Int){
+        repoLocal.getDetailInfo(id).let {
+            if (it != null) liveData.postValue(CharactersAppState.SuccessCharacter(it))
+            else CharactersAppState.Error("No info about character")
+        }
+    }
+
+    fun getCharacterInfo(character: Character){
+        liveData.postValue(CharactersAppState.SuccessCharacter(character))
+    }
+
     override fun onCleared() {
         disposable.clear()
         super.onCleared()

@@ -1,6 +1,7 @@
 package com.molchanov.molchanovrickandmorty.ui.router
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import javax.inject.Inject
@@ -12,6 +13,12 @@ import javax.inject.Inject
  * @param tag - тэг под которым был сохранён фрагмент
  */
 class Router @Inject constructor(): IRouter {
+
+    lateinit var fragmentManager: FragmentManager
+
+    fun initFragmentManager(fragmentManager: FragmentManager){
+        this.fragmentManager = fragmentManager
+    }
 
     override fun addFragment(fragmentManager: FragmentManager, fragmentRepId: Int,
                              fragment: Fragment, tag: String) {

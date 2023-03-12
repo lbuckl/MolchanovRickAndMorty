@@ -16,7 +16,6 @@ class CharacterRepoRemoteImpl(
     ): IRemoteRequest<Int, String, CharacterPage, Character> {
 
     override fun getData(requestData: Int): Single<CharacterPage> {
-
         return rmRequestImpl.getCharactersRetrofit().getCharacters(requestData.toString()).map { dto ->
             dtoDomainMapper.charactersDTOtoDomainPage(dto, requestData)
         }

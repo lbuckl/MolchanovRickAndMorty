@@ -18,6 +18,9 @@ data class CharacterDetails(
     val status: String,
     //Возможно пригодятся
     @Transient
+    @SerializedName("origin")
+    val origin: Origin,
+    @Transient
     @SerializedName("type")
     val type: String,
     @Transient

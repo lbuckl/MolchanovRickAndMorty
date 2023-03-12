@@ -6,12 +6,9 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Transformation
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
-import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.google.android.material.snackbar.Snackbar
 import com.molchanov.domain.character.Character
 import com.molchanov.molchanovrickandmorty.App
@@ -19,8 +16,9 @@ import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
 import com.molchanov.molchanovrickandmorty.ui.pagination.PaginationRVAdapter
-import com.molchanov.molchanovrickandmorty.utils.loadImageFromUrl
+import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
+import javax.inject.Inject
 
 /**
  * Фрагмент для взаимодействия со списком персонажей
@@ -32,6 +30,9 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         const val FRAGMENT_TAG = "CharactersFragment_IdentificationTag"
     }
 
+    @Inject
+    lateinit var router: IRouter
+
     private lateinit var viewModel: CharactersViewModel
 
     private var localLoading = false
@@ -41,6 +42,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
      */
     private val onRVItemClickListener = object : CharactersRVAdapter.OnListItemClickListener {
         override fun onItemClick(data: Character) {
+            viewModel.getCharacterInfo(data)
         }
     }
 
@@ -99,7 +101,9 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
             renderData(state)
         }
 
-        viewModel.reloadData()
+        viewModel.getMyLiveData().value?.let {
+            renderData(it)
+        }
     }
 
     private fun initButtons(){
@@ -131,10 +135,30 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
                     pagRvAdapter.replaceData(pageNum, pageActual)
                 }
             }
+            is CharactersAppState.SuccessCharacter -> {
+                val bundle = Bundle()
+                bundle.putParcelable(
+                    CharacterDetailsFragment.FRAGMENT_MESSAGE_TAG,
+                    state.data
+                )
+
+                router.replaceFragmentWithMessage(
+                    childFragmentManager,
+                    binding.flCharacterContainer.id,
+                    CharacterDetailsFragment.instance,
+                    CharacterDetailsFragment.FRAGMENT_TAG,
+                    bundle
+                )
+
+                binding.flCharacterContainer.vision(View.VISIBLE)
+            }
             is CharactersAppState.Error -> {
                 binding.errorLayout.vision(View.VISIBLE)
 
                 Snackbar.make(binding.root,state.errorMsg,Snackbar.LENGTH_LONG).show()
+            }
+            is CharactersAppState.ErrorCharacter -> {
+                Snackbar.make(binding.rvCharacters,state.errorMsg,Snackbar.LENGTH_LONG).show()
             }
             is CharactersAppState.Loading ->{
                 with(binding.ivLoading){

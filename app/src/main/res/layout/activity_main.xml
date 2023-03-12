@@ -24,6 +24,7 @@
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="start"
+                android:visibility="gone"
                 android:src="@drawable/ic_home_color"
                 android:background="?attr/custom_bar_color"/>
 
@@ -42,6 +43,7 @@
                 android:id="@+id/ab_mainActivity_ic_back"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
+                android:visibility="gone"
                 android:layout_gravity="end"
                 android:src="@drawable/ic_button_back_color"
                 android:background="?attr/custom_bar_color"/>
@@ -63,9 +65,10 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_main"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="68dp"
         app:itemRippleColor="@color/yellow_light"
         android:clickable="true"
+        app:itemIconSize="36dp"
         app:itemHorizontalTranslationEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
