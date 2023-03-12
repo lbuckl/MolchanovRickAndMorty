@@ -8,10 +8,12 @@ import com.molchanov.molchanovrickandmorty.data.networkstatus.INetworkStatus
 import com.molchanov.molchanovrickandmorty.ui.base.BaseViewModel
 import com.molchanov.repository.cases.ILocalRequest
 import com.molchanov.repository.cases.IRemoteRequest
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.core.SingleObserver
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -40,12 +42,6 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     @Named("CharacterRepoLocal")
     lateinit var repoLocal: ILocalRequest<Int, Int, CharacterPage, Character>
 
-    @Inject @Named("io")
-    lateinit var schedulerIO: Scheduler
-
-    @Inject @Named("main")
-    lateinit var schedulerMain: Scheduler
-
     @Inject
     lateinit var networkStatus: INetworkStatus
 
@@ -65,6 +61,7 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
         lastPageActual = page
 
         networkStatus.isOnlineSingle()
+            .subscribeOn(Schedulers.single())
             .subscribeWith(object : SingleObserver<Boolean>{
 
                 override fun onSubscribe(d: Disposable) {
@@ -78,7 +75,7 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
                 override fun onSuccess(t: Boolean) {
                     if (t) disposable.add(
                         repoRemote.getData(page)
-                            .subscribeOn(schedulerIO)
+                            .subscribeOn(Schedulers.io())
                             .subscribe(
                         {
                             liveData.postValue(CharactersAppState.Success(it))
@@ -114,8 +111,8 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     private fun reserveDbRequest(page: Int){
         disposable.add(
             repoLocal.getData(page)
-                .subscribeOn(schedulerIO)
-                .observeOn(schedulerMain)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
                         liveData.value =  CharactersAppState.Success(it)

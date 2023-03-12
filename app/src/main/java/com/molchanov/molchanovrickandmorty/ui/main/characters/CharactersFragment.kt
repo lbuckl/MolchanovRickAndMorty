@@ -37,7 +37,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
     private var localLoading = false
 
     /**
-     * Коллбэк от элементов reciclerView со списком персонажей
+     * Коллбэк от элементов recyclerView со списком персонажей
      */
     private val onRVItemClickListener = object : CharactersRVAdapter.OnListItemClickListener {
         override fun onItemClick(data: Character) {
@@ -45,7 +45,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
     }
 
     /**
-     * Коллбэк от элементов reciclerView с пагинацией
+     * Коллбэк от элементов recyclerView с пагинацией
      */
     private val onPagRVItemClickListener = object : PaginationRVAdapter.OnListItemClickListener {
         override fun onItemClick(data: Pair<Int, Boolean>) {
@@ -98,6 +98,8 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         viewModel.getMyLiveData().observe(viewLifecycleOwner) { state ->
             renderData(state)
         }
+
+        viewModel.reloadData()
     }
 
     private fun initButtons(){
@@ -141,8 +143,6 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
                         localLoading = true
 
                         loadingShowDelay()
-
-                        //vision(View.VISIBLE)
                     }
                     else{
                         localLoading = true

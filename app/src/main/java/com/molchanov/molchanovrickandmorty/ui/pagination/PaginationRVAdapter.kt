@@ -1,7 +1,10 @@
 package com.molchanov.molchanovrickandmorty.ui.pagination
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.molchanov.molchanovrickandmorty.databinding.PaginationRvItemCheckedBinding
 import com.molchanov.molchanovrickandmorty.databinding.PaginationRvItemUncheckedBinding
@@ -43,35 +46,30 @@ class PaginationRVAdapter(
     }
 
     override fun onBindViewHolder(holder: PaginationBaseViewHolder, position: Int) {
-        holder.bind(pageList[position])
+        holder.bind(differ.currentList[position])
 
         holder.itemView.setOnClickListener {
-
-            /*if (oldActivePage != (position + 1))
-
-            oldActivePage = position + 1
-
-            replaceData(pageList.size, position + 1)*/
 
             callback.onItemClick(pageList[position])
         }
     }
 
     fun replaceData(pageNum: Int, activePage: Int) {
+
         createPageList(pageNum, activePage).let {
             pageList = it
+
+            differ.submitList(it)
 
             if (oldActivePage != (activePage))
             {
                 oldActivePage = activePage
             }
-
-            notifyDataSetChanged()
         }
     }
 
     override fun getItemCount(): Int {
-        return pageList.size
+        return differ.currentList.size
     }
 
     interface OnListItemClickListener {
@@ -95,4 +93,16 @@ class PaginationRVAdapter(
 
         return bufList
     }
+
+    private val diffCallBack = object : DiffUtil.ItemCallback<Pair<Int, Boolean>>() {
+        override fun areItemsTheSame(oldItem: Pair<Int, Boolean>, newItem: Pair<Int, Boolean>): Boolean {
+            return oldItem.first == newItem.first
+        }
+
+        override fun areContentsTheSame(oldItem: Pair<Int, Boolean>, newItem: Pair<Int, Boolean>): Boolean {
+            return oldItem.second == newItem.second
+        }
+    }
+
+    private val differ = AsyncListDiffer(this, diffCallBack)
 }

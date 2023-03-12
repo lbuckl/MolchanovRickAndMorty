@@ -13,6 +13,7 @@ import com.molchanov.molchanovrickandmorty.ui.main.episodes.EpisodesFragment
 import com.molchanov.molchanovrickandmorty.ui.main.locations.LocationsFragment
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.schedulers.Schedulers
@@ -27,12 +28,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
 
     @Inject
     lateinit var networkStatus: INetworkStatus
-
-    @Inject @Named("io")
-    lateinit var ioFlow: Scheduler
-
-    @Inject @Named("main")
-    lateinit var mainFlow: Scheduler
 
     @Inject
     lateinit var router: IRouter
@@ -139,7 +134,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(){
         disposable.add(
         networkStatus.isOnline()
             .subscribeOn(Schedulers.single())
-            .observeOn(mainFlow)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 {
                     if (!it) Toast.makeText(this, "connection lost", Toast.LENGTH_LONG).show()
