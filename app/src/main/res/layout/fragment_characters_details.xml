@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:theme="@style/Character_details_item_theme"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,8 +27,8 @@
 
                 <ImageView
                     android:id="@+id/iv_character_details"
-                    android:layout_width="160dp"
-                    android:layout_height="160dp"
+                    android:layout_width="@dimen/character_details_photo_size"
+                    android:layout_height="@dimen/character_details_photo_size"
                     android:src="@drawable/ic_rm_duo"
                     />
 
@@ -40,42 +41,35 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_character_name"
                         android:layout_margin="@dimen/character_item_margin"
-                        android:text="name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_character_spec"
                         android:layout_margin="@dimen/character_item_margin"
-                        android:text="spec"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_character_gender"
                         android:layout_margin="@dimen/character_item_margin"
-                        android:text="gender"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_character_status"
                         android:layout_margin="@dimen/character_item_margin"
-                        android:text="status"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tv_character_from"
                         android:layout_margin="@dimen/character_item_margin"
-                        android:text="from"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/photoAlbum_toolbar"
@@ -87,24 +81,42 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
+        android:id="@+id/rv_episodes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/character_details_rv_margin_top"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/ll_list_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:orientation="vertical"
         app:layout_anchor="@id/photoAlbum_appbar"
         app:layout_anchorGravity="bottom">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/character_details_header_height"
+            android:textSize="@dimen/character_details_header_text_size"
+            android:gravity="center"
+            android:text="@string/episodes"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            />
+
     </androidx.appcompat.widget.LinearLayoutCompat>
-
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

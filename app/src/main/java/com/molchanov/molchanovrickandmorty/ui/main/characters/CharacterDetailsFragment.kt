@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.molchanov.domain.character.Character
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersDetailsBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
+import com.molchanov.molchanovrickandmorty.ui.main.episodes.EpisodesRVAdapter
 import com.molchanov.molchanovrickandmorty.utils.loadImageFromUrl
 
 class CharacterDetailsFragment: BaseFragment<FragmentCharactersDetailsBinding>() {
@@ -17,6 +18,8 @@ class CharacterDetailsFragment: BaseFragment<FragmentCharactersDetailsBinding>()
         const val FRAGMENT_TAG = "CharacterDetailsFragment_IdentificationTag"
         const val FRAGMENT_MESSAGE_TAG = "CharacterDetailsFragmentMessageTag"
     }
+
+    private val episodesAdapter = EpisodesRVAdapter()
 
     override fun getViewBinding(): FragmentCharactersDetailsBinding {
         return FragmentCharactersDetailsBinding.inflate(layoutInflater)
@@ -44,10 +47,19 @@ class CharacterDetailsFragment: BaseFragment<FragmentCharactersDetailsBinding>()
                     this.tvCharacterStatus.text = "Status: ${it.status}"
                     this.ivCharacterDetails.loadImageFromUrl(it.imgUrl)
                 }
+
+                loadEpisodeList(it.episodes)
             }
             else {
                 //TODO (Error msg)
             }
         }
+    }
+
+    private fun loadEpisodeList(data: List<String>){
+
+        binding.rvEpisodes.adapter = episodesAdapter
+
+        episodesAdapter.replaceData(data)
     }
 }

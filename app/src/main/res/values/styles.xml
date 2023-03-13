@@ -14,6 +14,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="Character_details_item_theme" parent="Theme.MolchanovRickAndMorty">
+        <item name="fontFamily">@font/font_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
     <!-- Pagination. -->
     <style name="Pagination_item_style" parent="Widget.AppCompat.TextView.SpinnerItem">

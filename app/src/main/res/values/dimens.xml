@@ -12,4 +12,8 @@
     <!-- Characters. -->
     <dimen name="iv_character_item_icon_size">200dp</dimen>
     <dimen name="character_item_margin">4dp</dimen>
+    <dimen name="character_details_header_text_size">20sp</dimen>
+    <dimen name="character_details_header_height">24dp</dimen>
+    <dimen name="character_details_rv_margin_top">12dp</dimen>
+    <dimen name="character_details_photo_size">160dp</dimen>
 </resources>
