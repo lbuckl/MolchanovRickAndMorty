@@ -2,6 +2,8 @@ package com.molchanov.repository.local.characters
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import com.molchanov.repository.local.characters.entityes.CharacterEpisodeEntity
+import com.molchanov.repository.local.characters.entityes.CharacterPageEntity
 
 /**
  * БД персонажей

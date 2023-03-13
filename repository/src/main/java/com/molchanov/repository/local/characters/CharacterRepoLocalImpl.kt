@@ -18,8 +18,8 @@ class CharacterRepoLocalImpl(
 
     override fun getData(requestData: Int): Single<CharacterPage> {
 
-        return dbExist.getCharactersDB().getDAO().queryPage(requestData).map {
-            mapper.daoToDomain(it)
+        return dbExist.getCharacterEpisodeDB().getDAO().queryPageAndEpisodes(requestData).map { data ->
+            mapper.daoCharacterAndEpisodesToDomain(data)
         }
     }
 
@@ -28,18 +28,22 @@ class CharacterRepoLocalImpl(
                 it.characterList.forEach { char ->
                     if (char.id == id) return char
                 }
-
         }
-
         return null
     }
 
     override fun saveData(data: CharacterPage, key: Int) {
 
-        dbExist.getCharactersDB().getDAO().insertAll(mapper.domainToDao(data, key))
+        data.characterList.forEach { char ->
 
-        dbExist.getCharacterEpisodeDB().getDAO()
-            .insertEpisodes(mapper.episodeDomainToEntity(data))
+            dbExist.getCharacterEpisodeDB().getDAO().insertCharacter(
+                mapper.characterDomainToDao(char, data.pageActual)
+            )
+
+            dbExist.getCharacterEpisodeDB().getDAO().insertEpisodes(
+                mapper.episodeDomainToEntity(char)
+            )
+        }
 
         lastPage = data
     }
