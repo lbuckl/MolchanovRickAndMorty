@@ -22,7 +22,7 @@ class DaoDomainMapper @Inject constructor(){
             )
 
 
-    fun episodeDomainToEntity(character: Character): List<CharacterEpisodeEntity> {
+    fun episodeDomainToDao(character: Character): List<CharacterEpisodeEntity> {
 
         val result: MutableList<CharacterEpisodeEntity> = mutableListOf()
 
@@ -59,4 +59,41 @@ class DaoDomainMapper @Inject constructor(){
                 )
             }
         )
+
+    fun daoCharacterAndEpisodesToDomainSearch(
+        characterPageAndEpisodes: List<CharacterPageAndEpisodes>,
+        searchWord: String
+    ): CharacterPage {
+
+        val result = mutableListOf<CharacterPageAndEpisodes>()
+
+        characterPageAndEpisodes.forEach {
+            if (findWordInText(it.characterPage.name, searchWord)||
+                findWordInText(it.characterPage.status, searchWord)||
+                findWordInText(it.characterPage.gender, searchWord)||
+                findWordInText(it.characterPage.spec, searchWord)
+            ) result.add(it)
+        }
+
+        return CharacterPage(
+            characterPageAndEpisodes[0].characterPage.pageNum,
+            characterPageAndEpisodes[0].characterPage.pageActual,
+            null,
+            null,
+            result.toList().map {
+                Character(
+                    it.characterPage.id.toInt(),
+                    it.characterPage.name,
+                    it.characterPage.spec,
+                    it.characterPage.status,
+                    it.characterPage.gender,
+                    it.characterPage.imgUrl,
+                    it.characterEpisodeEntities.map { ep->
+                        ep.episode
+                    }
+                )
+            }
+        )
+    }
+
 }

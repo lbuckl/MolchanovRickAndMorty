@@ -1,5 +1,6 @@
 package com.molchanov.repository.local.characters
 
+import android.util.Log
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.cases.ILocalRequest
@@ -12,7 +13,7 @@ import io.reactivex.rxjava3.core.Single
 class CharacterRepoLocalImpl(
     private val dbExist: CharactersDbExist,
     private val mapper: DaoDomainMapper
-    ): ILocalRequest<Int, Int, CharacterPage, Character> {
+    ): ILocalRequest<Int, Int, String, CharacterPage, Character> {
 
     private var lastPage: CharacterPage? = null
 
@@ -20,6 +21,13 @@ class CharacterRepoLocalImpl(
 
         return dbExist.getCharacterEpisodeDB().getDAO().queryPageAndEpisodes(requestData).map { data ->
             mapper.daoCharacterAndEpisodesToDomain(data)
+        }
+    }
+
+    override fun getSearchedData(requestData: Int, searchWord: String): Single<CharacterPage> {
+
+        return dbExist.getCharacterEpisodeDB().getDAO().queryPageAndEpisodes(requestData).map { data ->
+            mapper.daoCharacterAndEpisodesToDomainSearch(data, searchWord)
         }
     }
 
@@ -32,10 +40,12 @@ class CharacterRepoLocalImpl(
             )
 
             dbExist.getCharacterEpisodeDB().getDAO().insertEpisodes(
-                mapper.episodeDomainToEntity(char)
+                mapper.episodeDomainToDao(char)
             )
         }
 
         lastPage = data
     }
+
+
 }

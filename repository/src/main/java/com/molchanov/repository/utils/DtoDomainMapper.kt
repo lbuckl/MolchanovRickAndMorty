@@ -1,6 +1,5 @@
 package com.molchanov.repository.utils
 
-import android.util.Log
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.remote.characters.dto.CharacterDetails
@@ -38,7 +37,6 @@ class DtoDomainMapper @Inject constructor(){
         page: Int,
         searchWord: String
     ): CharacterPage {
-        Log.v("@@@", "charactersDTOtoDomainPageSearched")
 
         val result = mutableListOf<CharacterDetails>()
 
@@ -52,8 +50,6 @@ class DtoDomainMapper @Inject constructor(){
                 result.add(it)
             }
         }
-
-        Log.v("@@@", result.size.toString())
 
         return CharacterPage(
             pageNum = characters.info.pages,

@@ -29,7 +29,7 @@ class RepositoryLocalModule {
     fun repositoryCharacterLocalImpl(
         dbExist: CharactersDbExist,
         mapper: DaoDomainMapper
-    ): ILocalRequest<Int, Int, CharacterPage, Character> {
+    ): ILocalRequest<Int, Int, String, CharacterPage, Character> {
         return CharacterRepoLocalImpl(dbExist,mapper)
     }
 }

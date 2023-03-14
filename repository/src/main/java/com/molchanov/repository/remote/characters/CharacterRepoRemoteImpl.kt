@@ -1,6 +1,5 @@
 package com.molchanov.repository.remote.characters
 
-import android.util.Log
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.cases.IRemoteRequest

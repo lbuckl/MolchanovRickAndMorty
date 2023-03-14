@@ -41,7 +41,7 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
 
     @Inject
     @Named("CharacterRepoLocal")
-    lateinit var repoLocal: ILocalRequest<Int, Int, CharacterPage, Character>
+    lateinit var repoLocal: ILocalRequest<Int, Int, String, CharacterPage, Character>
 
     @Inject
     lateinit var networkStatus: INetworkStatus
@@ -87,10 +87,6 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
                             repoLocal.saveData(it, page)
                         },
                         {
-                            liveData.postValue(
-                                CharactersAppState.Error("Try get data from cache")
-                            )
-
                             reserveDbRequest(page)
                         }
                         )
@@ -147,21 +143,59 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     }
 
     fun findCharactersByString(searchWord: String){
+
+        networkStatus.isOnlineSingle()
+            .subscribeOn(Schedulers.single())
+            .subscribeWith(object : SingleObserver<Boolean>{
+
+                override fun onSubscribe(d: Disposable) {
+                    disposable.add(d)
+                }
+
+                override fun onError(e: Throwable) {
+                    liveData.postValue(CharactersAppState.Error("Network"))
+                }
+
+                override fun onSuccess(t: Boolean) {
+
+                    if (t){
+                        disposable.add(
+                            repoRemote.getSearchedData(lastPageActual,searchWord)
+                                .subscribeOn(Schedulers.io())
+                                .subscribe(
+                                    {
+                                        liveData.postValue(CharactersAppState.Loading(false))
+
+                                        postStateDelayed(CharactersAppState.Success(it))
+
+                                        repoLocal.saveData(it, lastPageActual)
+                                    },
+                                    {
+                                        reserveDbRequestForSearch(lastPageActual, searchWord)
+                                    }
+                                )
+                        )
+                    }
+                    else reserveDbRequestForSearch(lastPageActual, searchWord)
+                }
+            })
+    }
+
+    //Резервный запрос в БД
+    private fun reserveDbRequestForSearch(page: Int, searchWord: String){
         disposable.add(
-            repoRemote.getSearchedData(lastPageActual,searchWord)
+            repoLocal.getSearchedData(page,searchWord)
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
                         liveData.postValue(CharactersAppState.Loading(false))
 
                         postStateDelayed(CharactersAppState.Success(it))
-
-                        repoLocal.saveData(it, lastPageActual)
                     },
                     {
-                        liveData.postValue(
-                            CharactersAppState.Error("Try get data from cache")
-                        )
+                        liveData.value =
+                            CharactersAppState.Error("No data in DataBase")
                     }
                 )
         )
