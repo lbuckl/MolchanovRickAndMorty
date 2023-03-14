@@ -14,7 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/custom_bar_color"
@@ -25,7 +25,7 @@
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:visibility="gone"
-                android:layout_gravity="start"
+                android:layout_alignParentStart="true"
                 android:src="@drawable/ic_button_back_color"
                 android:background="?attr/custom_bar_color"/>
 
@@ -35,11 +35,28 @@
                 android:layout_gravity="center"
                 style="@style/HeaderStyle"
                 android:fontFamily="@font/font_header"
-                android:gravity="center"
+                android:layout_centerHorizontal="true"
                 android:text="@string/characters"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/custom_bar_color" />
-        </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ab_character_ic_filter"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_filter_color"
+                android:background="?attr/custom_bar_color"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ab_character_ic_search"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_toStartOf="@+id/ab_character_ic_filter"
+                android:src="@drawable/ic_search_color"
+                android:background="?attr/custom_bar_color"/>
+
+        </RelativeLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -75,6 +92,7 @@
         android:id="@+id/iv_loading"
         android:layout_width="240dp"
         android:layout_height="240dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

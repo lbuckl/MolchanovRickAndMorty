@@ -23,15 +23,6 @@ class CharacterRepoLocalImpl(
         }
     }
 
-    override fun getDetailInfo(id: Int): Character? {
-        lastPage?.let {
-                it.characterList.forEach { char ->
-                    if (char.id == id) return char
-                }
-        }
-        return null
-    }
-
     override fun saveData(data: CharacterPage, key: Int) {
 
         data.characterList.forEach { char ->

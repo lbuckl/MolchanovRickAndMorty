@@ -11,5 +11,4 @@ import io.reactivex.rxjava3.core.Single
 interface ILocalRequest <KEY, ID, DATA: Any, D: Any>:
 
     IGetData<KEY, Single<DATA>>,
-    IGetDetailInfo<ID, D?>,
     ISaveData<DATA, KEY>

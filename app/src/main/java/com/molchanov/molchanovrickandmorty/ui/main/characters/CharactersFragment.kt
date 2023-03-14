@@ -3,6 +3,7 @@ package com.molchanov.molchanovrickandmorty.ui.main.characters
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -43,6 +44,9 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
     private val onRVItemClickListener = object : CharactersRVAdapter.OnListItemClickListener {
         override fun onItemClick(data: Character) {
             viewModel.getCharacterInfo(data)
+
+            binding.abCharacterIcFilter.vision(View.GONE)
+            binding.abCharacterIcSearch.vision(View.GONE)
         }
     }
 
@@ -102,6 +106,8 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         }
 
         viewModel.getMyLiveData().value?.let {
+            Log.v("@@@", it.toString())
+
             renderData(it)
         }
     }
@@ -123,9 +129,17 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
                 CharacterDetailsFragment.FRAGMENT_TAG
             )
 
-            binding.flCharacterContainer.vision(View.GONE)
+            viewModel.reloadData()
 
-            binding.abMainActivityIcBack.vision(View.GONE)
+            with(binding){
+                flCharacterContainer.vision(View.GONE)
+
+                abMainActivityIcBack.vision(View.GONE)
+
+                abCharacterIcFilter.vision(View.VISIBLE)
+
+                abCharacterIcSearch.vision(View.VISIBLE)
+            }
         }
     }
 

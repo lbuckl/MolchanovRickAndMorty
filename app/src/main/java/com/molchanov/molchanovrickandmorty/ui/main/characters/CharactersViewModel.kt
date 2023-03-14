@@ -1,6 +1,7 @@
 package com.molchanov.molchanovrickandmorty.ui.main.characters
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
@@ -56,7 +57,8 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     //Основная функция запроса данных
     @SuppressLint("CheckResult")
     fun getData(page: Int){
-        loadingState(true)
+
+        liveData.postValue(CharactersAppState.Loading(true))
 
         lastPageActual = page
 
@@ -78,13 +80,11 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
                             .subscribeOn(Schedulers.io())
                             .subscribe(
                         {
-                            liveData.postValue(CharactersAppState.Success(it))
+                            liveData.postValue(CharactersAppState.Loading(false))
+
+                            postStateDelayed(CharactersAppState.Success(it))
 
                             repoLocal.saveData(it, page)
-
-                            Thread.sleep(200)
-
-                            loadingState(false)
                         },
                         {
                             liveData.postValue(
@@ -115,7 +115,9 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        liveData.value =  CharactersAppState.Success(it)
+                        liveData.postValue(CharactersAppState.Loading(false))
+
+                        postStateDelayed(CharactersAppState.Success(it))
                     },
                     {
                         liveData.value =
@@ -123,8 +125,6 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
                     }
                 )
         )
-
-        loadingState(false)
     }
 
 
@@ -134,6 +134,14 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
         Thread.sleep(appStateDelay)
 
         liveData.postValue(CharactersAppState.Loading(state))
+    }
+
+
+    private fun postStateDelayed(state: CharactersAppState){
+        Thread.sleep(appStateDelay)
+
+        liveData.postValue(state)
+
     }
 
     fun getCharacterInfo(character: Character){
