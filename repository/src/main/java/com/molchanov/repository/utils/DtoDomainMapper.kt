@@ -1,5 +1,6 @@
 package com.molchanov.repository.utils
 
+import android.util.Log
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.remote.characters.dto.CharacterDetails
@@ -31,4 +32,37 @@ class DtoDomainMapper @Inject constructor(){
                 it
             }
         )
+
+    fun charactersDTOtoDomainPageSearched(
+        characters: CharacterDto,
+        page: Int,
+        searchWord: String
+    ): CharacterPage {
+        Log.v("@@@", "charactersDTOtoDomainPageSearched")
+
+        val result = mutableListOf<CharacterDetails>()
+
+        characters.results.forEach {
+            if (
+                findWordInText(it.name, searchWord)||
+                findWordInText(it.status, searchWord)||
+                findWordInText(it.gender, searchWord)||
+                findWordInText(it.species, searchWord)
+            ) {
+                result.add(it)
+            }
+        }
+
+        Log.v("@@@", result.size.toString())
+
+        return CharacterPage(
+            pageNum = characters.info.pages,
+            pageActual = page,
+            prev = characters.info.prev,
+            next = characters.info.next,
+            result.toList().map {
+                charactersDTOtoDomain(it)
+            }
+        )
+    }
 }

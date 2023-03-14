@@ -1,12 +1,17 @@
 package com.molchanov.molchanovrickandmorty.ui.main.characters
 
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcelable.ClassLoaderCreator
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.SurfaceControl.Transaction
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -16,6 +21,7 @@ import com.molchanov.molchanovrickandmorty.App
 import com.molchanov.molchanovrickandmorty.R
 import com.molchanov.molchanovrickandmorty.databinding.FragmentCharactersBinding
 import com.molchanov.molchanovrickandmorty.ui.base.BaseFragment
+import com.molchanov.molchanovrickandmorty.ui.filter.SearchDialogFragment
 import com.molchanov.molchanovrickandmorty.ui.pagination.PaginationRVAdapter
 import com.molchanov.molchanovrickandmorty.ui.router.IRouter
 import com.molchanov.molchanovrickandmorty.utils.vision
@@ -106,7 +112,6 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
         }
 
         viewModel.getMyLiveData().value?.let {
-            Log.v("@@@", it.toString())
 
             renderData(it)
         }
@@ -114,14 +119,26 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
     private fun initButtons(){
 
+        initButtonReload()
+
+        initButtonBack()
+
+        initButtonSearch()
+
+        initButtonFilter()
+    }
+
+    private fun initButtonReload(){
         binding.btnReload.setOnClickListener {
 
             binding.errorLayout.vision(View.GONE)
 
             viewModel.reloadData()
         }
+    }
 
-        binding.abMainActivityIcBack.setOnClickListener {
+    private fun initButtonBack(){
+        binding.abCharacterIcBack.setOnClickListener {
             router.deleteFragment(
                 childFragmentManager,
                 binding.flCharacterContainer.id,
@@ -134,13 +151,36 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
             with(binding){
                 flCharacterContainer.vision(View.GONE)
 
-                abMainActivityIcBack.vision(View.GONE)
+                abCharacterIcBack.vision(View.GONE)
 
                 abCharacterIcFilter.vision(View.VISIBLE)
 
                 abCharacterIcSearch.vision(View.VISIBLE)
             }
         }
+    }
+
+    private fun initButtonSearch(){
+
+        binding.abCharacterIcSearch.setOnClickListener {
+            //Создаём диологовое окно
+            val searchDialogFragment = SearchDialogFragment.instance
+
+            //Инициализируем прослушку
+            searchDialogFragment.setOnSearchClickListener(object :
+                SearchDialogFragment.OnSearchClickListener {
+                override fun onClick(searchWord: String) {
+
+                    viewModel.findCharactersByString(searchWord)
+                }
+            })
+            //отображаем диологовое окно
+            searchDialogFragment.show(parentFragmentManager, SearchDialogFragment.FRAGMENT_TAG)
+        }
+    }
+
+    private fun initButtonFilter(){
+        //TODO Filter
     }
 
     private fun initLoading(){
@@ -180,7 +220,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
 
                 binding.flCharacterContainer.vision(View.VISIBLE)
 
-                binding.abMainActivityIcBack.vision(View.VISIBLE)
+                binding.abCharacterIcBack.vision(View.VISIBLE)
             }
             is CharactersAppState.Error -> {
                 binding.errorLayout.vision(View.VISIBLE)

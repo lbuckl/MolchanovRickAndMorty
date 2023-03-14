@@ -100,12 +100,10 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
             })
     }
 
-
     //Перезгрузка данных
     fun reloadData(){
         getData(lastPageActual)
     }
-
 
     //Резервный запрос в БД
     private fun reserveDbRequest(page: Int){
@@ -146,6 +144,27 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
 
     fun getCharacterInfo(character: Character){
         liveData.postValue(CharactersAppState.SuccessCharacter(character))
+    }
+
+    fun findCharactersByString(searchWord: String){
+        disposable.add(
+            repoRemote.getSearchedData(lastPageActual,searchWord)
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                    {
+                        liveData.postValue(CharactersAppState.Loading(false))
+
+                        postStateDelayed(CharactersAppState.Success(it))
+
+                        repoLocal.saveData(it, lastPageActual)
+                    },
+                    {
+                        liveData.postValue(
+                            CharactersAppState.Error("Try get data from cache")
+                        )
+                    }
+                )
+        )
     }
 
     override fun onCleared() {

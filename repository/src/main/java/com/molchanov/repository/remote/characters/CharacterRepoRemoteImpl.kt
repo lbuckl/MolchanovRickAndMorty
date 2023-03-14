@@ -1,5 +1,6 @@
 package com.molchanov.repository.remote.characters
 
+import android.util.Log
 import com.molchanov.domain.character.Character
 import com.molchanov.domain.character.CharacterPage
 import com.molchanov.repository.cases.IRemoteRequest
@@ -18,6 +19,12 @@ class CharacterRepoRemoteImpl(
     override fun getData(requestData: Int): Single<CharacterPage> {
         return rmRequestImpl.getCharactersRetrofit().getCharacters(requestData.toString()).map { dto ->
             dtoDomainMapper.charactersDTOtoDomainPage(dto, requestData)
+        }
+    }
+
+    override fun getSearchedData(requestData: Int, searchWord: String): Single<CharacterPage> {
+        return rmRequestImpl.getCharactersRetrofit().getCharacters(requestData.toString()).map { dto ->
+            dtoDomainMapper.charactersDTOtoDomainPageSearched(dto, requestData, searchWord)
         }
     }
 

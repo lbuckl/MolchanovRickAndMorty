@@ -5,6 +5,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.molchanov.domain.character.CharacterPage
 import com.molchanov.molchanovrickandmorty.R
 
 fun View.vision(flag: Int){

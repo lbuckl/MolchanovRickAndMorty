@@ -24,4 +24,23 @@
     <style name="Pagination_item_style" parent="Widget.AppCompat.TextView.SpinnerItem">
         <item name="android:textSize">32sp</item>
     </style>
+
+    <!-- Search dialog. -->
+    <style name="BaseSearchTextStyle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/red_dark</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+
+    <style name="TextViewButtonStyle" parent="BaseSearchTextStyle">
+        <item name="android:textColor">@color/red_dark</item>
+    </style>
+
+    <style name="BaseEditTextStyle">
+        <item name="android:background">@null</item>
+        <item name="android:imeOptions">actionNext</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:inputType">text</item>
+    </style>
 </resources>

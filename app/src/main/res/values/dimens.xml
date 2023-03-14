@@ -16,4 +16,10 @@
     <dimen name="character_details_header_height">24dp</dimen>
     <dimen name="character_details_rv_margin_top">12dp</dimen>
     <dimen name="character_details_photo_size">160dp</dimen>
+
+    <!-- Search dialog. -->
+    <dimen name="margin_medium">15dp</dimen>
+    <dimen name="margin_xx_medium">20dp</dimen>
+    <dimen name="margin_xxx_medium">25dp</dimen>
+    <dimen name="margin_small">10dp</dimen>
 </resources>

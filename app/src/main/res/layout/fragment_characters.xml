@@ -21,7 +21,7 @@
             android:orientation="horizontal">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ab_mainActivity_ic_back"
+                android:id="@+id/ab_character_ic_back"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="?attr/actionBarSize"
                 android:visibility="gone"
