@@ -1,17 +1,11 @@
 package com.molchanov.molchanovrickandmorty.ui.main.characters
 
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Parcelable.ClassLoaderCreator
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.SurfaceControl.Transaction
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.bumptech.glide.Glide
@@ -171,7 +165,7 @@ class CharactersFragment: BaseFragment<FragmentCharactersBinding>() {
                 SearchDialogFragment.OnSearchClickListener {
                 override fun onClick(searchWord: String) {
 
-                    viewModel.findCharactersByString(searchWord)
+                    viewModel.searchData(searchWord)
                 }
             })
             //отображаем диологовое окно

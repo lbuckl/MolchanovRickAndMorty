@@ -46,54 +46,124 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
     @Inject
     lateinit var networkStatus: INetworkStatus
 
-    private val disposable: CompositeDisposable = CompositeDisposable()
+    private var disposable: Disposable = Disposable.empty()
+
+    private var networkStatusResult: Boolean? = null
+
+    private var networkStatusInit = false
     //endregion
 
     fun getMyLiveData(): LiveData<CharactersAppState> {
+
+        if (!networkStatusInit) initNetWorkObserver()
+
         if (liveData.value == null) getData(1)
+
         return outLiveData
     }
 
-    //Основная функция запроса данных
-    @SuppressLint("CheckResult")
+    private fun initNetWorkObserver(){
+
+        networkStatus.isOnline().subscribe(
+            {
+                networkStatusResult = it
+            },
+            {
+                networkStatusResult = null
+            }
+        )
+
+        networkStatusInit = true
+    }
+
     fun getData(page: Int){
+            when(networkStatusResult) {
+                true -> {
+                        lastPageActual = page
 
-        liveData.postValue(CharactersAppState.Loading(true))
-
-        lastPageActual = page
-
-        networkStatus.isOnlineSingle()
-            .subscribeOn(Schedulers.single())
-            .subscribeWith(object : SingleObserver<Boolean>{
-
-                override fun onSubscribe(d: Disposable) {
-                    disposable.add(d)
-                }
-
-                override fun onError(e: Throwable) {
-                    liveData.postValue(CharactersAppState.Error("Network"))
-                }
-
-                override fun onSuccess(t: Boolean) {
-                    if (t) disposable.add(
-                        repoRemote.getData(page)
+                        disposable = repoRemote.getData(page)
                             .subscribeOn(Schedulers.io())
                             .subscribe(
+                                {
+                                    liveData.postValue(CharactersAppState.Loading(false))
+
+                                    postStateDelayed(CharactersAppState.Success(it))
+
+                                    repoLocal.saveData(it, page)
+                                },
+                                {
+                                    reserveGetRequest(page)
+                                }
+                            )
+                }
+                else -> reserveGetRequest(page)
+
+            }
+    }
+
+    //Резервный запрос в БД
+    private fun reserveGetRequest(page: Int){
+
+        disposable = repoLocal.getData(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        liveData.value = CharactersAppState.Loading(false)
+
+                        postStateDelayed(CharactersAppState.Success(it))
+                    },
+                    {
+                        liveData.value =
+                            CharactersAppState.Error("No data in DataBase")
+                    }
+                )
+    }
+
+    fun searchData(searchWord: String){
+
+        when(networkStatusResult) {
+            true -> {
+                disposable = repoRemote.getSearchedData(lastPageActual, searchWord)
+                    .subscribeOn(Schedulers.io())
+                    .subscribe(
                         {
                             liveData.postValue(CharactersAppState.Loading(false))
 
                             postStateDelayed(CharactersAppState.Success(it))
-
-                            repoLocal.saveData(it, page)
                         },
                         {
-                            reserveDbRequest(page)
+                            reserveSearchRequest(searchWord)
                         }
-                        )
                     )
-                    else reserveDbRequest(page)
+            }
+            else -> reserveSearchRequest(searchWord)
+        }
+    }
+
+    //Резервный запрос в БД
+    private fun reserveSearchRequest(searchWord: String){
+
+        disposable = repoLocal.getSearchedData(lastPageActual, searchWord)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {
+                    liveData.value = CharactersAppState.Loading(false)
+
+                    postStateDelayed(CharactersAppState.Success(it))
+                },
+                {
+                    liveData.value =
+                        CharactersAppState.Error("No data in DataBase")
                 }
-            })
+            )
+    }
+
+    private fun postStateDelayed(state: CharactersAppState){
+        Thread.sleep(appStateDelay)
+
+        liveData.postValue(state)
     }
 
     //Перезгрузка данных
@@ -101,108 +171,12 @@ class CharactersViewModel: BaseViewModel<CharactersAppState>() {
         getData(lastPageActual)
     }
 
-    //Резервный запрос в БД
-    private fun reserveDbRequest(page: Int){
-        disposable.add(
-            repoLocal.getData(page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        liveData.postValue(CharactersAppState.Loading(false))
-
-                        postStateDelayed(CharactersAppState.Success(it))
-                    },
-                    {
-                        liveData.value =
-                            CharactersAppState.Error("No data in DataBase")
-                    }
-                )
-        )
-    }
-
-
-    //Функция для утсановки состояния загрузки
-    private fun loadingState(state: Boolean){
-
-        Thread.sleep(appStateDelay)
-
-        liveData.postValue(CharactersAppState.Loading(state))
-    }
-
-
-    private fun postStateDelayed(state: CharactersAppState){
-        Thread.sleep(appStateDelay)
-
-        liveData.postValue(state)
-
-    }
-
     fun getCharacterInfo(character: Character){
         liveData.postValue(CharactersAppState.SuccessCharacter(character))
     }
 
-    fun findCharactersByString(searchWord: String){
-
-        networkStatus.isOnlineSingle()
-            .subscribeOn(Schedulers.single())
-            .subscribeWith(object : SingleObserver<Boolean>{
-
-                override fun onSubscribe(d: Disposable) {
-                    disposable.add(d)
-                }
-
-                override fun onError(e: Throwable) {
-                    liveData.postValue(CharactersAppState.Error("Network"))
-                }
-
-                override fun onSuccess(t: Boolean) {
-
-                    if (t){
-                        disposable.add(
-                            repoRemote.getSearchedData(lastPageActual,searchWord)
-                                .subscribeOn(Schedulers.io())
-                                .subscribe(
-                                    {
-                                        liveData.postValue(CharactersAppState.Loading(false))
-
-                                        postStateDelayed(CharactersAppState.Success(it))
-
-                                        repoLocal.saveData(it, lastPageActual)
-                                    },
-                                    {
-                                        reserveDbRequestForSearch(lastPageActual, searchWord)
-                                    }
-                                )
-                        )
-                    }
-                    else reserveDbRequestForSearch(lastPageActual, searchWord)
-                }
-            })
-    }
-
-    //Резервный запрос в БД
-    private fun reserveDbRequestForSearch(page: Int, searchWord: String){
-        disposable.add(
-            repoLocal.getSearchedData(page,searchWord)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    {
-                        liveData.postValue(CharactersAppState.Loading(false))
-
-                        postStateDelayed(CharactersAppState.Success(it))
-                    },
-                    {
-                        liveData.value =
-                            CharactersAppState.Error("No data in DataBase")
-                    }
-                )
-        )
-    }
-
     override fun onCleared() {
-        disposable.clear()
+        disposable.dispose()
         super.onCleared()
     }
 }
